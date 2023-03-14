@@ -8,7 +8,7 @@ import Main from "./CrudApp/Components/Main";
 function App() {
   return (
     <div className="App">
-      Hello React
+      
      <Main/>
     </div>
   );

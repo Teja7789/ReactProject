@@ -1,3 +1,4 @@
+import { Button, TextField } from '@material-ui/core';
 import React from 'react'
 import { useState } from 'react';
 
@@ -6,20 +7,27 @@ export default function Contacts() {
   const [ password, setPassword ] = useState("");
   const add = (e) => {
     e.preventDefault();
-    console.log(email , password ,"data");
+    if (password === "" || email === "") {
+      alert("ALl the fields are mandatory!");
+      return console.log(email, password, "data");
+    }
+    // this.props.addContactHandler(this.state);
+    setEmail("");
+    setPassword("");
   }
   return (
     <div>
       <form onSubmit={add}>
-        <label>Email</label>
-        <input type={email} placeholder='Email' 
+      
+        <TextField type={email} placeholder='Email' 
         onChange={(e)=> setEmail(e.target.value)}
         />
-        <label>Password</label>
-        <input type={password} placeholder='Password'
+
+        <TextField type={password} placeholder='Password'
          onChange={(e)=> setPassword(e.target.value)}
          />
-        <button>Submit</button>
+         
+        <Button variant='outlined' >Submit</Button>
       </form>
         
     </div>
