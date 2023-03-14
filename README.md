@@ -1,10 +1,16 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 <!-- router DoM -->
+## npm i react-router-dom@5 --save
 ## exact
 ## render props
 ## link easliy navigate
 ## programatically routing history.push and use prrops
 <!-- router DoM -->
+<!-- json and axios  server api-->
+## npm install -g json server
+## npm init
+## npm i --save json-server for (sever-api)
+## change in package.json file (scripts) -  "start":"json-server -p 3006 -w db.json"
 ## Available Scripts
 
 In the project directory, you can run:
