@@ -1,5 +1,10 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+<!-- router DoM -->
+## exact
+## render props
+## link easliy navigate
+## programatically routing history.push and use prrops
+<!-- router DoM -->
 ## Available Scripts
 
 In the project directory, you can run:
