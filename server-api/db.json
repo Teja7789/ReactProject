@@ -1,6 +1,14 @@
 {
-    "contacts":[ 
-{"id": "AprPr9IxG71X6qWMTsKSC", "name": "mani ", "email": "test@gmail.com"}, 
-{"id": "i3vOErnghB_CGAO79pyLc", "name": "mike", "email": "mike@gmail.com"}
-    ]
+  "contacts": [
+    {
+      "id": "AprPr9IxG71X6qWMTsKSC",
+      "name": "mani",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": "i3vOErnghB_CGAO79pyLc",
+      "name": "mike John",
+      "email": "mike@gmail.com"
+    }
+  ]
 }
