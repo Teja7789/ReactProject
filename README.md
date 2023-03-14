@@ -12,7 +12,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## npm i --save json-server for (sever-api)
 ## change in package.json file (scripts) -  "start":"json-server -p 3006 -w db.json"
 ## Available Scripts
+<!-- redux thunk axios json server-->
+## npm i axios react-redux redux-logger redux-thunk @material-ui/core @material-ui/icons react-router-dom react-toastify
 
+// with yarn
+## yarn add @material-ui/icons
+<!-- redux -->
 In the project directory, you can run:
 
 ### `yarn start`
