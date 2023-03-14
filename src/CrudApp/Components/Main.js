@@ -12,8 +12,10 @@ import EditContact from './EditContact';
 export default function Main() {
   const LOCAL_STORAGE_KEY = "contacts";
   const [contacts, setContacts] = useState([]);
-   //RetrieveContacts
-   const retrieveContacts = async () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  //RetrieveContacts
+  const retrieveContacts = async () => {
     const response = await api.get("/contacts");
     return response.data;
   };
@@ -49,6 +51,21 @@ export default function Main() {
     setContacts(newContactList);
   };
 
+  const searchHandler = (searchTerm) => {
+    setSearchTerm(searchTerm);
+    if (searchTerm !== "") {
+      const newContactList = contacts.filter((contact) => {
+        return Object.values(contact)
+          .join(" ")
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+      });
+      setSearchResults(newContactList);
+    } else {
+      setSearchResults(contacts);
+    }
+  };
+
   useEffect(() => {
     // const retriveContacts = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
     // if (retriveContacts) setContacts(retriveContacts);
@@ -66,27 +83,30 @@ export default function Main() {
 
   return (
     <div className="ui container">
-    <Router>
-      <Header />
-      <Switch>
-        <Route
-          path="/"
-          exact
-          render={(props) => (
-            <Contactlist
-              {...props}
-              contacts={contacts}
-              getContactId={removeContactHandler}
-            />
-          )}
-        />
-        <Route
-          path="/add"
-          render={(props) => (
-            <AddContact {...props} addContactHandler={addContactHandler} />
-          )}
-        />
- <Route
+      <Router>
+        <Header />
+        <Switch>
+          <Route
+            path="/"
+            exact
+            render={(props) => (
+              <Contactlist
+                {...props}
+                contacts={searchTerm.length < 1 ? contacts : searchResults}
+                getContactId={removeContactHandler}
+                term={searchTerm}
+                searchKeyword={searchHandler}
+              />
+            )}
+          />
+          <Route
+            path="/add"
+            render={(props) => (
+              <AddContact {...props} addContactHandler={addContactHandler} />
+            )}
+          />
+
+          <Route
             path="/edit"
             render={(props) => (
               <EditContact
@@ -95,9 +115,10 @@ export default function Main() {
               />
             )}
           />
-        <Route path="/contact/:id" component={ContactDetail} />
-      </Switch>
-    </Router>
-  </div>
-  )
+
+          <Route path="/contact/:id" component={ContactDetail} />
+        </Switch>
+      </Router>
+    </div>
+  );
 }
