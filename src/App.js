@@ -1,17 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-
+import AppHeader from './CrudApp/Components/AppHeader';
+import Contacts from './CrudApp/Components/Contacts';
+import Main from "./CrudApp/Components/Main";
+// import Todo from './MDN/components/Todo';
+// import Mains from './MDN/Mains';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h2>Hello World</h2>
-        <p>
-          Welcome to New Project
-        </p>
-      </header>
+     <Main/>
     </div>
   );
 }
