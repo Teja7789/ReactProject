@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import  { useDispatch, useSelector } from "react-redux";
-import { loadUsers } from '../Redux/Actions/actions';
+import { deleteUser, loadUsers } from '../Redux/Actions/actions';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -37,6 +37,7 @@ const useStyles = makeStyles({
     minWidth: 900,
   },
 });
+//deleteuser-4
 
 function Homes() {
     const classes = useStyles();
@@ -46,6 +47,11 @@ const { users } = useSelector(state => state.data)
 useEffect(()=> {
     dispatch(loadUsers())
 },[dispatch]);
+ const handleDelete = (id) => {
+  if(window.confirm("Are sure wanted to delete the user")){
+    dispatch(deleteUser(id))
+  }
+  }
 const data = users && users.map((user) => {
   return (
     <div  key={user.id}>
@@ -61,7 +67,9 @@ const data = users && users.map((user) => {
 <tr >
 <td>{user.email}</td>
 <td>{user.name}</td>
-<td><button>Edit</button><button>Delete</button></td>
+<td><button>Edit</button>
+{/* deleteuser-4  */}
+<button onClick={()=> handleDelete(user.id)}>Delete</button></td>
 </tr>
 </tbody>
 </table>
