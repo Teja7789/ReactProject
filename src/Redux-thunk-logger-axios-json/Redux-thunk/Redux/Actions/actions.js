@@ -9,6 +9,11 @@ const getUsers = (users) => ({
 const userDeleted = () => ({
     type: types.DELETE_USER,
 })
+  //postUser -2
+  const userAdded = () => ({
+    type: types.ADD_USER,
+})
+
  export const loadUsers = () => {
     return function (dispatch) {
         axios.get(`${process.env.REACT_APP_API}`).then((res) => {
@@ -17,15 +22,30 @@ const userDeleted = () => ({
         }).catch(error => console.log(error));
     }
  }
+
+
+
  ////deleteuser-2 && delete user
  
  export const deleteUser = (id) => {
     return function (dispatch) {
         axios.delete(`${process.env.REACT_APP_API}/${id}`).then((res) => {
-            console.log("deleteres",res);
+            console.log("delete-res",res);
             dispatch(userDeleted());
-           //delteuser-5 // to get updated data : loaderUsers is getAll fn 
-            dispatch(loadUsers()); 
+             //delteuser-5 // to get updated data : loaderUsers is getAll fn 
+             dispatch(loadUsers()); 
+        }).catch(error => console.log(error));
+    }
+ }
+
+ //postUser -2 
+  
+ export const addUser = (user) => {
+    return function (dispatch) {
+        axios.post(`${process.env.REACT_APP_API}`, user).then((res) => {
+            console.log("post-res",res);
+            dispatch(userAdded());
+            dispatch(loadUsers()); //to get updated data : loaderUsers is getAll fn
         }).catch(error => console.log(error));
     }
  }

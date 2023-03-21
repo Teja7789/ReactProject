@@ -10,6 +10,7 @@ import StepperForm from './Assignment/StepperForm/StepperForm';
 import StepperForms from './Pcrud/components/StepperForms';
 import Contacts from './Redux-thunk-logger-axios-json/redux/Pages/Contacts';
 import Homes from './Redux-thunk-logger-axios-json/Redux-thunk/Pages/Homes';
+import AddUser from './Redux-thunk-logger-axios-json/Redux-thunk/Pages/AddUser';
 
 
 
@@ -18,7 +19,7 @@ function App() {
     <div>
 <Switch >
   <Route exact path="/" component={Homes}/>
-      
+  <Route exact path="/addUser" component={AddUser}/>
       </Switch>
       {/* <Homes/> */}
       {/* <Main/> */}

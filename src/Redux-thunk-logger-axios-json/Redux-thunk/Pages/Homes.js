@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import  { useDispatch, useSelector } from "react-redux";
 import { deleteUser, loadUsers } from '../Redux/Actions/actions';
-
+import { useHistory } from 'react-router-dom';
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -37,16 +37,18 @@ const useStyles = makeStyles({
     minWidth: 900,
   },
 });
-//deleteuser-4
+
 
 function Homes() {
     const classes = useStyles();
 let dispatch = useDispatch();
+let histroy = useHistory();
 //fetch data and desture the users in 
 const { users } = useSelector(state => state.data)
 useEffect(()=> {
     dispatch(loadUsers())
 },[dispatch]);
+//deleteuser-4
  const handleDelete = (id) => {
   if(window.confirm("Are sure wanted to delete the user")){
     dispatch(deleteUser(id))
@@ -54,7 +56,10 @@ useEffect(()=> {
   }
 const data = users && users.map((user) => {
   return (
+  
+   
     <div  key={user.id}>
+    
 <table>
  <thead>
 <tr >
@@ -74,10 +79,14 @@ const data = users && users.map((user) => {
 </tbody>
 </table>
     </div> 
+  
 )});
     return (
     
       <>  
+      <button
+    onClick={() => histroy.push("/addUser")}
+    > Add User</button>
       {data}
        </>
       );
