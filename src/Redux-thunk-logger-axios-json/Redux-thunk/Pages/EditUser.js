@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useHistory , useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUser, getSingleUser } from '../Redux/Actions/actions';
+import {  getSingleUser, updateUser } from '../Redux/Actions/actions';
 import { useEffect } from 'react';
 function EditUser() {
     const history = useHistory();
@@ -42,9 +42,9 @@ const handleInputChange = (e) => {
             setError("Please fill all Fileds");
 
         }else{
-            //postUser-4 post the api data
-// dispatch(addUser({name,email}));
-dispatch(addUser(formValue));
+            ////putUser(editandupdateuser) -1 ~ postUser-4 post the api data
+//putUser require id update **** must pass id to updated the data
+dispatch(updateUser(formValue,id));
 history.push("/");
 
 

@@ -13,6 +13,10 @@ const userDeleted = () => ({
   const userAdded = () => ({
     type: types.ADD_USER,
 })
+//putUser(editandupdateuser) -2
+const userUpdated = () => ({
+    type: types.UPDATE_USER,
+})
 //getUserbyId-2 
 const getUser = (user) => ({
     type: types.GETSINGLE_USER,
@@ -37,7 +41,16 @@ export const getSingleUser = (id) => {
         }).catch(error => console.log(error));
     }
  }
-
+ //putUser(editandupdateuser) -2
+ export const updateUser = (user,id) => {
+    return function (dispatch) {
+        axios.put(`${process.env.REACT_APP_API}/${id}`,user).then((res) => {
+            console.log("putApi-res",res);
+            dispatch(userUpdated());
+            dispatch(loadUsers()); 
+        }).catch(error => console.log(error));
+    }
+ }
  ////deleteuser-2 && delete user
  
  export const deleteUser = (id) => {

@@ -16,7 +16,9 @@ const usersReducers = (state = initialState, action) => {
             // //deleteuser-3 -deleteReducerState
             case types.DELETE_USER:
                 //Postuser-3 -postReducerState
-                case types.ADD_USER:{
+                case types.ADD_USER:
+                    //putUser(editandupdateuser) -3
+                    case types.UPDATE_USER:{
               return {
     ...state,
     loading: false,
