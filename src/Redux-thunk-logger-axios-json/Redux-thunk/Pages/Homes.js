@@ -72,7 +72,9 @@ const data = users && users.map((user) => {
 <tr >
 <td>{user.email}</td>
 <td>{user.name}</td>
-<td><button>Edit</button>
+<td>
+  {/* //getUserbyId-4 */}
+  <button onClick={()=> histroy.push(`/editUser/${user.id}`)}>Edit</button>
 {/* deleteuser-4  */}
 <button onClick={()=> handleDelete(user.id)}>Delete</button></td>
 </tr>

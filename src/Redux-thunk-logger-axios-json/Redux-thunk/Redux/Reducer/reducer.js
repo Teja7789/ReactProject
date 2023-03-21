@@ -17,11 +17,18 @@ const usersReducers = (state = initialState, action) => {
             case types.DELETE_USER:
                 //Postuser-3 -postReducerState
                 case types.ADD_USER:{
-return {
+              return {
     ...state,
     loading: false,
-}
-            }
+             };
+        };
+        case types.GETSINGLE_USER: {
+            return {
+             ...state,
+             user:action.payload,
+             loading: false,
+            } 
+         }
         default:
             return state;
     }

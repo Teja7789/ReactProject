@@ -13,6 +13,11 @@ const userDeleted = () => ({
   const userAdded = () => ({
     type: types.ADD_USER,
 })
+//getUserbyId-2 
+const getUser = (user) => ({
+    type: types.GETSINGLE_USER,
+    payload: user,
+})
 
  export const loadUsers = () => {
     return function (dispatch) {
@@ -22,8 +27,16 @@ const userDeleted = () => ({
         }).catch(error => console.log(error));
     }
  }
-
-
+//getUserbyId-2
+export const getSingleUser = (id) => {
+    return function (dispatch) {
+        axios.get(`${process.env.REACT_APP_API}/${id}`).then((res) => {
+            console.log("getUserbyId-res",res);
+            dispatch(getUser(res.data));
+          
+        }).catch(error => console.log(error));
+    }
+ }
 
  ////deleteuser-2 && delete user
  
