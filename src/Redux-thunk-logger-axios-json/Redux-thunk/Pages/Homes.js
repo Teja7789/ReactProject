@@ -28,17 +28,8 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+
 
 const useStyles = makeStyles({
   table: {
@@ -50,37 +41,69 @@ const useStyles = makeStyles({
 function Homes() {
     const classes = useStyles();
 let dispatch = useDispatch();
+//fetch data and desture the users in 
+const { users } = useSelector(state => state.data)
 useEffect(()=> {
     dispatch(loadUsers())
-},[]);
+},[dispatch]);
+const data = users && users.map((user) => {
+  return (
+    <div  key={user.id}>
+<table>
+ <thead>
+<tr >
+<th>Email</th>
+<th>Name</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody >
+<tr >
+<td>{user.email}</td>
+<td>{user.name}</td>
+<td><button>Edit</button><button>Delete</button></td>
+</tr>
+</tbody>
+</table>
+    </div> 
+)});
     return (
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell align="center">Email</StyledTableCell>
-              <StyledTableCell align="center">Contact</StyledTableCell>
-              <StyledTableCell align="center">Address</StyledTableCell>
-              <StyledTableCell align="center">action</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          {/* <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.name}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                <StyledTableCell align="right">{row.protein}</StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody> */}
-        </Table>
-      </TableContainer>
-    );
+    
+      <>  
+      {data}
+       </>
+      );
+        
+      
+      {/* // <TableContainer component={Paper}>
+      //   <Table className={classes.table} aria-label="customized table">
+      //     <TableHead>
+      //       <TableRow>
+      //         <StyledTableCell>Name</StyledTableCell>
+      //         <StyledTableCell align="center">Email</StyledTableCell>
+      //         <StyledTableCell align="center">Contact</StyledTableCell>
+      //         <StyledTableCell align="center">Address</StyledTableCell>
+      //         <StyledTableCell align="center">action</StyledTableCell>
+      //       </TableRow>
+      //     </TableHead>
+      //     <TableBody>
+            //  aviod erros users && users.map 
+            //  {users && users.map((user) => ( 
+      //         <StyledTableRow key={user.id}>
+      //           <StyledTableCell component="th" scope="row">
+      //             {user.name}
+      //           </StyledTableCell>
+      //           <StyledTableCell align="center">{user.email}</StyledTableCell>
+      //           <StyledTableCell align="center">{user.username}</StyledTableCell>
+      //           <StyledTableCell align="center">{user.address}</StyledTableCell>
+      //           <StyledTableCell align="center"></StyledTableCell>
+      //         </StyledTableRow>
+      //       ))}
+      //     </TableBody>
+      //   </Table>
+      // </TableContainer> */}
+    //   </>
+    // );
 }
 
 export default Homes
