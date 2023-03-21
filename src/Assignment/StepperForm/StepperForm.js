@@ -91,7 +91,7 @@ export default function GeekStepper() {
   
   return (
     <div className={classes.root}>
-      <h1>GeeksforGeeks Stepper Form</h1>
+      <h1>Stepper Form</h1>
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((label, index) => (
           <Step key={label}>

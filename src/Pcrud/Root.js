@@ -18,6 +18,9 @@ export default function Root() {
         // console.log(DATA,"data")
         setDATA([...DATA,data])
     }
+    const removeHandler = () => {
+
+    }
   return (
     <div>
         <AddContact addDataHandler={addDataHandler} />

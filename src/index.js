@@ -4,7 +4,8 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
-import store from "./Redux-thunk-logger-axios-json/redux/Store/store";
+// import store from "./Redux-thunk-logger-axios-json/redux/Store/store";
+import store from "./Redux-thunk-logger-axios-json/Redux-thunk/Redux/Store/store";
 import { BrowserRouter } from 'react-router-dom';
 ReactDOM.render(
   <React.StrictMode>

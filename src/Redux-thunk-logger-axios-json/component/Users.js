@@ -40,7 +40,8 @@ function Users(props) {
 }
 
 const mapStateToProps = (state) => {
-  return state.users;
+  console.log(state.data,"rootReducer");
+  return state.data;
 };
 
 const fetchUsers = () => {
@@ -54,6 +55,7 @@ const fetchUsers = () => {
         dispatch(fetchUsersSuccess(users));
       })
       .catch((error) => {
+        console.log(error,"err");
         dispatch(fetchUsersError(error.message));
       });
   };
