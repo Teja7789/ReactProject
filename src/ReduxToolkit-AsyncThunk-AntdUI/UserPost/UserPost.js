@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import LoadingCard from "./LoadingCard";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Card, Input, Space } from "antd";
-import { getPost } from "./redux/feature/postSlice";
+import { getPost ,deletePost} from "./redux/feature/postSlice";
 const UserPost = ({ history }) => {
   const [id, setId] = useState();
   const [bodyText, setBodyText] = useState("");
@@ -50,6 +50,7 @@ const dispatch = useDispatch();
         <LoadingCard count={1} />
       ) : (
         <>
+        {/* post.length - alldeletePost this condition is useful */}
           {post.length > 0 && (
             <div className="site-card-border-less-wrapper">
               <Card type="inner" title={post[0].title}>
@@ -84,11 +85,13 @@ const dispatch = useDispatch();
                   float: "right",
                 }}
               >
+                {/* //deletePost-2 */}
                 <Button
                   style={{ cursor: "pointer" }}
                   type="primary"
                   disabled={edit}
                   danger
+                  onClick={()=> dispatch(deletePost({id: post[0].id}))}
                 >
                   Delete
                 </Button>
