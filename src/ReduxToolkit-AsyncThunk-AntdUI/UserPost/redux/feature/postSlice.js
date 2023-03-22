@@ -7,7 +7,7 @@ export const getPost = createAsyncThunk("post/getPost", async({id})=> {
 const postSlice = createSlice({
     name:"post",
     initialState: {
-        posts:[],
+        post:[],
         loading: false,
         error: null
     },
@@ -22,7 +22,7 @@ const postSlice = createSlice({
     },
     [getPost.rejected]: (state, action) => {
         state.loading = false;
-        state.error = [action.payload];
+        state.error = action.payload;
     },
 },
 });
