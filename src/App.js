@@ -12,16 +12,23 @@ import Contacts from './Redux-thunk-logger-axios-json/redux/Pages/Contacts';
 import Homes from './Redux-thunk-logger-axios-json/Redux-thunk/Pages/Homes';
 import AddUser from './Redux-thunk-logger-axios-json/Redux-thunk/Pages/AddUser';
 import EditUser from "./Redux-thunk-logger-axios-json/Redux-thunk/Pages/EditUser"
+import UserPost from './ReduxToolkit-AsyncThunk-AntdUI/UserPost/UserPost';
+
 
 
 function App() {
   return (
     <div>
-<Switch >
+      {/* redux-thunk crud */}
+{/* <Switch >
   <Route exact path="/" component={Homes}/>
   <Route exact path="/addUser" component={AddUser}/>
   <Route exact path="/editUser/:id" component={EditUser}/>
-      </Switch>
+      </Switch> */}
+      {/* redux-thunk crud */}
+      {/* reduxToolkit- AsyncThunk */}
+      <UserPost/>
+      {/* reduxToolkit- AsyncThunk */}
       {/* <Homes/> */}
       {/* <Main/> */}
       {/* <Root/> */}

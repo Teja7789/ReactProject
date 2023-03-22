@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 // import store from "./Redux-thunk-logger-axios-json/redux/Store/store";
 import store from "./Redux-thunk-logger-axios-json/Redux-thunk/Redux/Store/store";
 import { BrowserRouter } from 'react-router-dom';
+import "antd/dist/antd.css";//import for antd
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
