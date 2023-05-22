@@ -13,12 +13,13 @@ import Homes from './Redux-thunk-logger-axios-json/Redux-thunk/Pages/Homes';
 import AddUser from './Redux-thunk-logger-axios-json/Redux-thunk/Pages/AddUser';
 import EditUser from "./Redux-thunk-logger-axios-json/Redux-thunk/Pages/EditUser"
 import UserPost from './ReduxToolkit-AsyncThunk-AntdUI/UserPost/UserPost';
-
+import Create from './ReduxToolkit-AsyncThunk-AntdUI/UserPost/Create';
 
 
 function App() {
   return (
     <div>
+
       {/* redux-thunk crud */}
 {/* <Switch >
   <Route exact path="/" component={Homes}/>
@@ -27,7 +28,11 @@ function App() {
       </Switch> */}
       {/* redux-thunk crud */}
       {/* reduxToolkit- AsyncThunk */}
-      <UserPost/>
+      {/* <h2>Understand Redux Toolkit Using API</h2> */}
+      <Switch>
+        <Route path="/" exact component={UserPost} />
+        <Route path="/create" exact component={Create} />
+      </Switch>
       {/* reduxToolkit- AsyncThunk */}
       {/* <Homes/> */}
       {/* <Main/> */}
