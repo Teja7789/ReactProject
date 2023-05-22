@@ -1,9 +1,28 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+<!-- router DoM -->
+## npm i react-router-dom@5 --save
+## exact
+## render props
+## link easliy navigate
+## programatically routing history.push and use prrops
+<!-- router DoM -->
+<!-- json and axios  server api-->
+## npm install -g json server
+## npm init
+## npm i --save json-server for (sever-api)
+## change in package.json file (scripts) -  "start":"json-server -p 3006 -w db.json"
 ## Available Scripts
+<!-- redux thunk axios json server-->
+## npm i axios react-redux redux-logger redux-thunk @material-ui/core @material-ui/icons react-router-dom react-toastify
 
+// with yarn
+## yarn add @material-ui/icons
+<!-- redux -->
 In the project directory, you can run:
-
+<!-- mui stepper -->
+## stepperForm
+## stepperForm 2 links in code sandbox
+<!-- mui stepper -->
 ### `yarn start`
 
 Runs the app in the development mode.<br />

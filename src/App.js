@@ -1,17 +1,45 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Main from "./CrudApp/Components/Main";
+import Root from './Pcrud/Root';
+import { Route, Switch } from 'react-router';
+import Users from './Redux-thunk-logger-axios-json/component/Users';
+import Home from './Pcrud/components/StepperForms';
+import StepperForm from './Assignment/StepperForm/StepperForm';
+import StepperForms from './Pcrud/components/StepperForms';
+import Contacts from './Redux-thunk-logger-axios-json/redux/Pages/Contacts';
+import Homes from './Redux-thunk-logger-axios-json/Redux-thunk/Pages/Homes';
+import AddUser from './Redux-thunk-logger-axios-json/Redux-thunk/Pages/AddUser';
+import EditUser from "./Redux-thunk-logger-axios-json/Redux-thunk/Pages/EditUser"
+import UserPost from './ReduxToolkit-AsyncThunk-AntdUI/UserPost/UserPost';
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h2>Hello World</h2>
-        <p>
-          Welcome to New Project
-        </p>
-      </header>
+    <div>
+      {/* redux-thunk crud */}
+{/* <Switch >
+  <Route exact path="/" component={Homes}/>
+  <Route exact path="/addUser" component={AddUser}/>
+  <Route exact path="/editUser/:id" component={EditUser}/>
+      </Switch> */}
+      {/* redux-thunk crud */}
+      {/* reduxToolkit- AsyncThunk */}
+      <UserPost/>
+      {/* reduxToolkit- AsyncThunk */}
+      {/* <Homes/> */}
+      {/* <Main/> */}
+      {/* <Root/> */}
+    {/* stepper with form @mui */}
+    {/* redux */}
+    {/* <Users/> */}
+  {/* <Contacts/> */}
+    {/* redux */}
+      {/* <StepperForm/> */}
+      {/* <StepperForms/> */}
+        {/* stepper with form @mui errors resolve in console */}
     </div>
   );
 }
