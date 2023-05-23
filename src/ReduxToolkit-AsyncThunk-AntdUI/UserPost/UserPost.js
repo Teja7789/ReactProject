@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";//post edit export
 import LoadingCard from "./LoadingCard";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Card, Input, Space } from "antd";
-import { getPost ,deletePost} from "./redux/feature/postSlice";
+import { getPost ,deletePost, setEdit, updatePost} from "./redux/feature/postSlice";//post edit export
 const UserPost = ({ history }) => {
   const [id, setId] = useState();
   const [bodyText, setBodyText] = useState("");
 
-  const { loading,post,edit} = useSelector((state) =>({ ...state.app}));
+  const { loading,post,edit,body} = useSelector((state) =>({ ...state.app}));
 const dispatch = useDispatch();
 
   const onChangeInput = (e) => {
@@ -23,7 +23,11 @@ const dispatch = useDispatch();
       setId("");
     }
   };
-
+  //post edit export
+useEffect(()=>{
+  setBodyText(body);
+},[body]);
+//post edit export
   return (
     <div className="container">
       <h1 style={{ textAlign: "center" }}>Fetch Post</h1>
@@ -53,7 +57,7 @@ const dispatch = useDispatch();
         {/* post.length - alldeletePost this condition is useful */}
           {post.length > 0 && (
             <div className="site-card-border-less-wrapper">
-              <Card type="inner" title={post[0].title}>
+              <Card type="inner" title={post[0].id}>
                 <p>User Id: {post[0].id}</p>
                 {edit ? (
                   <>
@@ -69,12 +73,23 @@ const dispatch = useDispatch();
                         marginLeft: 5,
                       }}
                     >
-                      <Button type="primary">Save</Button>
-                      <Button>Cancel</Button>
+                      {/* putmethod updatePost */}
+                      <Button type="primary" 
+                      onClick={()=> {dispatch(updatePost({id: post[0].id,body: bodyText}));
+                      dispatch(setEdit({edit: false,body: post[0].body}));
+                      }
+                    } 
+                      >Save</Button>
+                      {/* putmethod updatePost */}
+                      {/* //post edit export */}
+                      <Button
+                        onClick={ () => dispatch(setEdit({edit: false,body: post[0].body}))}
+                      >Cancel</Button>
+                      {/* //post edit export */}
                     </Space>
                   </>
                 ) : (
-                  <span>{post[0].email}</span>
+                  <span>{post[0].body}</span>
                 )}
               </Card>
               <Space
@@ -95,7 +110,11 @@ const dispatch = useDispatch();
                 >
                   Delete
                 </Button>
-                <Button type="primary">Edit </Button>
+                {/* //post edit export */}
+                <Button type="primary" 
+                onClick={ () => dispatch(setEdit({edit: true,body: post[0].body}))}
+                >Edit </Button>
+                {/* //post edit export */}
               </Space>
             </div>
           )}
