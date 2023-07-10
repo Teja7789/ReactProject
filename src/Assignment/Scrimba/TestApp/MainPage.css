@@ -1,0 +1,23 @@
+nav {
+    width:100vw;
+    height: 5vh;
+    background-color: rgb(234, 8, 155);
+}
+.navname{
+    display: inline;
+    float: right;
+    margin:5px 5px 0px 0px;
+}
+.input{
+    display: block;
+    margin: 50px 0px 0px 80px;
+}
+.submit {
+    display: block;
+    background-color: rgb(249, 6, 152);
+    width: 60vw;
+    height: 20px;
+    margin: 30px 0px 0px 30px;
+    border: none;
+    border-radius: 5px;
+}
