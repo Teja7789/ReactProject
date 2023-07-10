@@ -16,15 +16,23 @@ import RefHook from './Assignment/Scrimba/RefHook';
 import Mains from "./Assignment/Scrimba/contextHook/Mains";
 import ReducerHook from './Assignment/Scrimba/ReducerHook';
 import MainPage from './Assignment/Scrimba/TestApp/MainPage';
+import UserPost from './ReduxToolkit-AsyncThunk-AntdUI/UserPost/UserPost';
+
+
 
 function App() {
   return (
     <div>
+      {/* redux-thunk crud */}
 {/* <Switch >
   <Route exact path="/" component={Homes}/>
   <Route exact path="/addUser" component={AddUser}/>
   <Route exact path="/editUser/:id" component={EditUser}/>
       </Switch> */}
+      {/* redux-thunk crud */}
+      {/* reduxToolkit- AsyncThunk */}
+      <UserPost/>
+      {/* reduxToolkit- AsyncThunk */}
       {/* <Homes/> */}
       {/* <Main/> */}
       {/* <Root/> */}
