@@ -79,7 +79,7 @@ import { useState } from 'react'
 
 //comples object - 
 import True from "./assets/logo192.png";
-import False from "./assets/logo512.png";
+import False from "./assets/favicon.ico";
 function DailyPractice() {
     const [contacts,setContacts] =useState({
         firstName:"John",
@@ -91,7 +91,12 @@ function DailyPractice() {
     // const value = contacts.isFavarite ? True : False;
     const value = contacts.isFavarite ?  False : True;
 const toogle = () => {
-    console.log("clicked")
+   setContacts(previousContacts =>{
+    return{
+        ...previousContacts,
+        isFavarite:!previousContacts.isFavarite
+    }
+   })
 }
   return (
     <div>DailyPractice
