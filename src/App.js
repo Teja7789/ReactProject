@@ -12,9 +12,14 @@ import Contacts from './Redux-thunk-logger-axios-json/redux/Pages/Contacts';
 import Homes from './Redux-thunk-logger-axios-json/Redux-thunk/Pages/Homes';
 import AddUser from './Redux-thunk-logger-axios-json/Redux-thunk/Pages/AddUser';
 import EditUser from "./Redux-thunk-logger-axios-json/Redux-thunk/Pages/EditUser"
+import RefHook from './Assignment/Scrimba/RefHook';
+import Mains from "./Assignment/Scrimba/contextHook/Mains";
+import ReducerHook from './Assignment/Scrimba/ReducerHook';
+import MainPage from './Assignment/Scrimba/TestApp/MainPage';
 import UserPost from './ReduxToolkit-AsyncThunk-AntdUI/UserPost/UserPost';
-
-
+import ShopApp from './Ecommerce/ShopApp';
+import Base from './Assignment/Practice/Base';
+import AddContact from './Assignment/Practice/components/AddContacts';
 
 function App() {
   return (
@@ -27,7 +32,7 @@ function App() {
       </Switch> */}
       {/* redux-thunk crud */}
       {/* reduxToolkit- AsyncThunk */}
-      <UserPost/>
+      {/* <UserPost/> */}
       {/* reduxToolkit- AsyncThunk */}
       {/* <Homes/> */}
       {/* <Main/> */}
@@ -40,6 +45,13 @@ function App() {
       {/* <StepperForm/> */}
       {/* <StepperForms/> */}
         {/* stepper with form @mui errors resolve in console */}
+   {/* <RefHook/> */}
+   {/* <Mains /> */}
+   {/* <ReducerHook/> */}
+   {/* <MainPage/> */}
+   {/* <ShopApp/> */}
+   {/* <Base/> */}
+   <AddContact/>
     </div>
   );
 }
