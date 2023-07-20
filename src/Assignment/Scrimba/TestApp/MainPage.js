@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import './MainPage.css';
+import DailyPractice from './DailyPractice';
+
+
 // import memesArray from './MemesData';
 function MainPage() {
   const [nameData,setNameData] =useState("");
@@ -50,6 +53,7 @@ function MainPage() {
           {/* <h1>{nameData}</h1> */}
         <img src={nameData} className='imageMeme'/>
         </section>
+        <DailyPractice/>
     </div>
   )
 }

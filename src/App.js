@@ -48,10 +48,10 @@ function App() {
    {/* <RefHook/> */}
    {/* <Mains /> */}
    {/* <ReducerHook/> */}
-   {/* <MainPage/> */}
+   <MainPage/>
    {/* <ShopApp/> */}
    {/* <Base/> */}
-   <AddContact/>
+   {/* <AddContact/> */}
     </div>
   );
 }
