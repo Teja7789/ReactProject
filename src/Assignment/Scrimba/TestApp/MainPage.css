@@ -21,3 +21,9 @@ nav {
     border: none;
     border-radius: 5px;
 }
+.imageMeme{
+    max-width: 100%;  /* fit in the size reqiured */
+    /* width: 20%;
+    height: 30%;
+    margin-top: 20px; */
+}

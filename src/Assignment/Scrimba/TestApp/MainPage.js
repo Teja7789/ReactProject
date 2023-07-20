@@ -1,35 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './MainPage.css';
-
+// import memesArray from './MemesData';
 function MainPage() {
-   let contact = {
-    "success":true,
-    "data":{
-        "contacts": [
+  const [nameData,setNameData] =useState("");
+   let contacts = [
           {
-            "id": "AprPr9IxG71X6qWMTsKSC",
+            "id": "1",
             "name": "mani",
-            "email": "test@gmail.com"
+            "url": "https://via.placeholder.com/600/92c952",
           },
           {
-            "id": "i3vOErnghB_CGAO79pyLc",
+            "id": "2",
             "name": "mike John",
-            "email": "mike@gmail.com"
+            "url": "https://via.placeholder.com/600/771796",
           },
           {
-            "id": "3c0e3bc9-79e4-4f89-adf2-ab76a8aac39c",
+            "id": "3",
             "name": "max",
-            "email": "max@gmail.com"
+            "url": "https://via.placeholder.com/600/24f355",
           }
-        ], 
-      }
-      };
-    let url;
+        ];
+      //   let  randomId = Math.floor(Math.random() * contacts.length);
+      // console.log(randomId,"randonId");
+     
    const task = () => {
-    let data = contact.contacts.id;
-    let randomId = Math.floor(Math.random * data);
-    console.log(randomId,"randonId");
+    let data = contacts.map((item)=>{
+      return item.url
+    });
+    console.log(data,"data");
+    let randomId = Math.floor(Math.random() * contacts.length);
+    console.log(contacts[randomId].name,"randonId");
+    setNameData(contacts[randomId].url);
+    
+    // console.log(randomId,425);
    }
+  //  console.log(task,"1234")
   return (
     <div>
         <nav>
@@ -37,10 +42,14 @@ function MainPage() {
 <h6 className='navname'>React Appln</h6>
         </nav>
         <main>
-    <input type='text' className='input'/>
-    <input type='number' className='input' />
-    <button className='submit'>Click</button>
+    <input type='text' />
+    <input type='number'  />
+    <button onClick={task} className='submit'>Click</button>
         </main>
+        <section>
+          {/* <h1>{nameData}</h1> */}
+        <img src={nameData} className='imageMeme'/>
+        </section>
     </div>
   )
 }
