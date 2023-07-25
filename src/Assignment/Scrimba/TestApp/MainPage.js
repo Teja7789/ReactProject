@@ -118,7 +118,7 @@ const [objData,setObjData] = useState({
         
         <img src={objData.randomImage} className='imageMeme'/>
         </section>
-      
+    
     </div>
   )
 }

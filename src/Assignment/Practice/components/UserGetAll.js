@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
 
-function Contacts() {
+function UserGetAll() {
     const [contacts,setContacts] = useState([]);
     useEffect(()=>{
         fetch(`http://localhost:3006/products`)
@@ -29,4 +29,4 @@ function Contacts() {
   )
 }
 
-export default Contacts
+export default UserGetAll

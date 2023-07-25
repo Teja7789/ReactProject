@@ -1,9 +1,11 @@
 import React from 'react'
-import Contacts from './components/Contacts'
+import UserGetAll from './components/UserGetAll'
+import ApiCrud from './components/ApiCrud'
 function Base() {
   return (
     <div>Base
-        <Contacts/>
+        <UserGetAll/>
+        <ApiCrud/>
     </div>
   )
 }

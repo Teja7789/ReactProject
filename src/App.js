@@ -19,7 +19,8 @@ import MainPage from './Assignment/Scrimba/TestApp/MainPage';
 import UserPost from './ReduxToolkit-AsyncThunk-AntdUI/UserPost/UserPost';
 import ShopApp from './Ecommerce/ShopApp';
 import Base from './Assignment/Practice/Base';
-import AddContact from './Assignment/Practice/components/AddContacts';
+
+
 
 function App() {
   return (
@@ -48,11 +49,12 @@ function App() {
    {/* <RefHook/> */}
    {/* <Mains /> */}
    {/* <ReducerHook/> */}
-   <MainPage/>
+   {/* <MainPage/> */}
    {/* <ShopApp/> */}
    {/* <Base/> */}
-   {/* <AddContact/> */}
-    </div>
+  
+
+     </div>
   );
 }
 
