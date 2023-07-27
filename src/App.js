@@ -19,6 +19,10 @@ import MainPage from './Assignment/Scrimba/TestApp/MainPage';
 import UserPost from './ReduxToolkit-AsyncThunk-AntdUI/UserPost/UserPost';
 import ShopApp from './Ecommerce/ShopApp';
 import Base from './Assignment/Practice/Base';
+import Ternary from './Assignment/Scrimba/PracticeQuiz/Ternary';
+import ToogleMain from './Assignment/Scrimba/PracticeQuiz/ToggleTheme/ToogleMain';
+import UserGetAll from './Assignment/Practice/components/UserGetAll';
+import ApiCrud from './Assignment/Practice/components/ApiCrud';
 
 
 
@@ -51,9 +55,10 @@ function App() {
    {/* <ReducerHook/> */}
    {/* <MainPage/> */}
    {/* <ShopApp/> */}
-   {/* <Base/> */}
-  
-
+  {/* Daily quiz */}
+  {/* <Ternary/> */}
+  {/* Daily quiz */}
+{/* <ApiCrud/> */}
      </div>
   );
 }

@@ -85,3 +85,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `yarn build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Ecommerce
+5. Visit [http://localhost:3000/](http://localhost:3000/)
+6. Log in with either `regular@example.com` or `admin@example.com` and the password `password`.
