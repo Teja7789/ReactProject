@@ -16,7 +16,7 @@
       "email": "max@gmail.com"
     }
   ],
-  "user": [
+  "users": [
     {
       "id": 1,
       "name": "Leanne Graham",
@@ -46,19 +46,16 @@
       "id": 3
     },
     {
-      "name": "mani bond",
-      "email": "venkat@g.in",
+      "name": "test",
+      "id": 4
+    },
+    {
+      "name": "TestDataWriteData",
       "id": 5
     },
     {
-      "name": "test",
-      "email": "test@gmail.com",
+      "name": "TestField",
       "id": 6
-    },
-    {
-      "name": "test1",
-      "email": "test1@gmail.com",
-      "id": 7
     }
   ],
   "posts": [
@@ -77,7 +74,7 @@
       "address": "Kulas Light"
     }
   ],
-  "users": [
+  "user": [
     {
       "email": "regular@example.com",
       "password": "$2a$10$2myKMolZJoH.q.cyXClQXufY1Mc7ETKdSaQQCC6Fgtbe0DCXRBELG",
