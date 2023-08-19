@@ -23,6 +23,17 @@ import Ternary from './Assignment/Scrimba/PracticeQuiz/Ternary';
 import ToogleMain from './Assignment/Scrimba/PracticeQuiz/ToggleTheme/ToogleMain';
 import UserGetAll from './Assignment/Practice/components/UserGetAll';
 import ApiCrud from './Assignment/Practice/components/ApiCrud';
+import NewApp from './Assignment/Practice/components/NewApp';
+import SignUpApp from './Assignment/Practice/components/SignUpApp';
+import MainApp from './Assignment/Practice/components/MainApp';
+// import FirstTable from './Galaxy/components/FirstTable';
+// import BasicSorting from './Galaxy/components/BasicSorting';
+// import DataTable from 'react-data-table-component';
+// import DataTableComponent from './Galaxy/components/DataTableComponent';
+// import TableBasicSorting from './Galaxy/components/TableBasicSorting';
+// import TableBasicSorting from './Galaxy/components/BasicSorting.js';
+// import DataTable from './Galaxy/components/DataTableComp';
+// import DataTableComp from './Galaxy/components/FirstTable';
 
 
 
@@ -59,6 +70,15 @@ function App() {
   {/* <Ternary/> */}
   {/* Daily quiz */}
 {/* <ApiCrud/> */}
+{/* Galaxy */}
+{/* <BasicSorting/> */}
+{/* <DataTableComponent/> */}
+{/* <DataTableComp/> */}
+{/* <FirstTable/> */}
+{/* Galaxy */}
+{/* <NewApp/> */}
+{/* <SignUpApp/> */}
+<MainApp/>
      </div>
   );
 }
