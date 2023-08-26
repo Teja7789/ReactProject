@@ -26,6 +26,8 @@ import ApiCrud from './Assignment/Practice/components/ApiCrud';
 import NewApp from './Assignment/Practice/components/NewApp';
 import SignUpApp from './Assignment/Practice/components/SignUpApp';
 import MainApp from './Assignment/Practice/components/MainApp';
+import PrimeDataTable from './Assignment/Practice/PrimereactDataTable/PrimeDataTable';
+import MyForm from './Assignment/Practice/components/MyForm';
 // import FirstTable from './Galaxy/components/FirstTable';
 // import BasicSorting from './Galaxy/components/BasicSorting';
 // import DataTable from 'react-data-table-component';
@@ -41,11 +43,11 @@ function App() {
   return (
     <div>
       {/* redux-thunk crud */}
-{/* <Switch >
+<Switch >
   <Route exact path="/" component={Homes}/>
   <Route exact path="/addUser" component={AddUser}/>
   <Route exact path="/editUser/:id" component={EditUser}/>
-      </Switch> */}
+      </Switch>
       {/* redux-thunk crud */}
       {/* reduxToolkit- AsyncThunk */}
       {/* <UserPost/> */}
@@ -78,7 +80,16 @@ function App() {
 {/* Galaxy */}
 {/* <NewApp/> */}
 {/* <SignUpApp/> */}
-<MainApp/>
+{/* <MainApp/> */}
+{/* dataTable */}
+{/* <PrimeDataTable/> */}
+
+{/* dataTable */}
+{/* reactRedux */}
+
+{/* reactRedux */}
+{/* <MyForm/> */}
+{/* <ApiCrud/> */}
      </div>
   );
 }

@@ -999,66 +999,56 @@
 // export default ApiCrud
 
 
-// import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 
-// function ApiCrud() {
-//   const [user,setUser] = useState([]);
-//   const [name,setName] = useState("");
-//   useEffect(()=>{
-//     fetch(`http://localhost:3006/user`)
-//     .then(res => res.json())
-//     .then(user => setUser(user))
-//   })
- 
-//   const deleteUser = (id) => {
-//     fetch(`http://localhost:3006/user/${id}`,{
-//       method:"DELETE"
-//     }).then(res => res.json())
-//     .then(()=> {
-//      setUser(values =>{
-//     return values.filter(item => item.id !== id)})
-//     })
-  
-//   }
-//   //   const deleteUser = id => {
-//   //   fetch(`http://localhost:3006/user/${id}`, {
-//   //     method: "DELETE",
-//   //   })
-//   //     .then(response => response.json())
-//   //     .then(() => {
-//   //       setUser(values => {
-//   //         return values.filter(item => item.id !== id)
-//   //       })
-       
-//   //     })
-//   // }
-//   const renderUser = user.map((item)=>{
-//     return(<div key={item.id}> {item.id} == {item.name}
-//     <button onClick={()=>deleteUser(item.id)}>Delete</button> </div>)
-//   })
-//   const addUser = () => {
-//     const newName = name.trim();
-//     if(newName){
-//     fetch(`http://localhost:3006/user`,{
-//       method:"POST",
-//       body: JSON.stringify({
-// name,
-//       }),
-//       headers:{"Content-type": "application/json; charset=UTF-8"}
-//     }).then(res => res.json())
-//     .then(data =>{
-//       setUser([...user,data])
-//     })
-//   }
-//   }
-//   return (
-//     <div>ApiCrud
-//       {renderUser}
-//       <input value={name} onChange={(e)=>setName(e.target.value)}/>
-//       <button onClick={addUser}>Add</button>
-//     </div>
-//   )
-// }
+function ApiCrud() {
+  const [user,setUser] = useState([]);
+  const [name,setName] = useState("");
+  const [email,setEmail] = useState("");
+  const [add,setAdd] = useState(null);
 
-// export default ApiCrud
+  const addUser = () => {
+    const newName = name.trim();
+    const newEmail = email.trim();
+    if(newName){
+    fetch(`http://localhost:3006/user`,{
+      method:"POST",
+      body: JSON.stringify({
+name,
+email,
+      }),
+      headers:{"Content-type": "application/json; charset=UTF-8"}
+    }).then(res => res.json())
+    .then(data =>{
+      setUser([...user,data])
+      console.log(data,"data");
+    })
+  }
+  }
+  function handleImage(e){
+    console.log(e.target.files);
+    setAdd(e.target.files[0]);
+  }
+  function imageUser(){
+    const formData =new FormData();
+    formData.append('add',add)
+    axios.post('http://localhost:3006/add',formData)
+    .then((res) =>{
+      console.log(res,"image")
+    })
+  }
+  return (
+    <div>ApiCrud
+<input type="file" name='file' onChange={handleImage}/>
+<button onClick={imageUser}>Add</button>
+      <input value={name} onChange={(e)=>setName(e.target.value)}/>
+      <input value={email} onChange={(e)=>setEmail(e.target.value)}/>
+      
+      <button onClick={addUser}>Add</button>
+    </div>
+  )
+}
+
+export default ApiCrud
 
