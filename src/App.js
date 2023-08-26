@@ -43,11 +43,11 @@ function App() {
   return (
     <div>
       {/* redux-thunk crud */}
-<Switch >
+{/* <Switch >
   <Route exact path="/" component={Homes}/>
   <Route exact path="/addUser" component={AddUser}/>
   <Route exact path="/editUser/:id" component={EditUser}/>
-      </Switch>
+      </Switch> */}
       {/* redux-thunk crud */}
       {/* reduxToolkit- AsyncThunk */}
       {/* <UserPost/> */}
@@ -90,6 +90,7 @@ function App() {
 {/* reactRedux */}
 {/* <MyForm/> */}
 {/* <ApiCrud/> */}
+
      </div>
   );
 }
