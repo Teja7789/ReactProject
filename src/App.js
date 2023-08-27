@@ -86,11 +86,12 @@ function App() {
 
 {/* dataTable */}
 {/* reactRedux */}
-
 {/* reactRedux */}
 {/* <MyForm/> */}
 {/* <ApiCrud/> */}
-
+{/* reduxSaga */}
+<p className='fw-bold'>add</p>
+{/* reduxSaga */}
      </div>
   );
 }
