@@ -44,11 +44,11 @@ function App() {
   return (
     <div>
       {/* redux-thunk crud */}
-{/* <Switch >
-  <Route exact path="/" component={Homes}/>
+<Switch >
+  <Route exact path="/a" component={Homes}/>
   <Route exact path="/addUser" component={AddUser}/>
   <Route exact path="/editUser/:id" component={EditUser}/>
-      </Switch> */}
+      </Switch>
       {/* redux-thunk crud */}
       {/* reduxToolkit- AsyncThunk */}
       {/* <UserPost/> */}
@@ -94,8 +94,9 @@ function App() {
 {/* <p className='fw-bold'>add</p> */}
 {/* reduxSaga */}
 {/* useForm */}
-<YoutubeForm/>
+{/* <YoutubeForm/> */}
 {/* useForm */}
+{/* <AddUser /> */}
      </div>
   );
 }
