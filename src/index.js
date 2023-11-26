@@ -7,12 +7,13 @@ import * as serviceWorker from './serviceWorker';
 // import store from "./Redux-thunk-logger-axios-json/redux/Store/store";//redux mapToStateProps
 // import store from "./Redux-thunk-logger-axios-json/Redux-thunk/Redux/Store/store"; //redux-thunk-crud
 import { BrowserRouter } from 'react-router-dom';
-import store from './ReduxToolkit-AsyncThunk-AntdUI/UserPost/redux/store'; //reduxToolkit-crud
-// import "antd/dist/antd.css";//import for antd
+// import store from './ReduxToolkit-AsyncThunk-AntdUI/UserPost/redux/store'; //reduxToolkit-crud
+import "antd/dist/antd.css";//import for antd
 import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 // import App from './Redux-saga-logger-axios-json/components/App';
 // import store from './Redux-saga-logger-axios-json/reduxSaga/store';
 import {Provider}  from "react-redux";
+import store from "./Redux-thunk-logger-axios-json/ReduxCrudUseForm/Store";
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

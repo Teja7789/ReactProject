@@ -29,6 +29,8 @@ import MainApp from './Assignment/Practice/components/MainApp';
 import PrimeDataTable from './Assignment/Practice/PrimereactDataTable/PrimeDataTable';
 import MyForm from './Assignment/Practice/components/MyForm';
 import YoutubeForm from './Assignment/Practice/useForm/components/YoutubeForm';
+import Create from './Redux-thunk-logger-axios-json/ReduxCrudUseForm/Components/Create';
+import ReactAntdPagination from './Assignment/Practice/components/ReactAntdPagination';
 // import FirstTable from './Galaxy/components/FirstTable';
 // import BasicSorting from './Galaxy/components/BasicSorting';
 // import DataTable from 'react-data-table-component';
@@ -44,11 +46,11 @@ function App() {
   return (
     <div>
       {/* redux-thunk crud */}
-<Switch >
+{/* <Switch >
   <Route exact path="/a" component={Homes}/>
   <Route exact path="/addUser" component={AddUser}/>
   <Route exact path="/editUser/:id" component={EditUser}/>
-      </Switch>
+      </Switch> */}
       {/* redux-thunk crud */}
       {/* reduxToolkit- AsyncThunk */}
       {/* <UserPost/> */}
@@ -94,9 +96,13 @@ function App() {
 {/* <p className='fw-bold'>add</p> */}
 {/* reduxSaga */}
 {/* useForm */}
-{/* <YoutubeForm/> */}
+<YoutubeForm/>
 {/* useForm */}
 {/* <AddUser /> */}
+{/* useFromCrud */}
+{/* <Create/> */}
+{/* useFromCrud */}
+{/* <ReactAntdPagination /> */}
      </div>
   );
 }
