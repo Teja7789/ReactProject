@@ -19,6 +19,8 @@ const [ error, setError] = useState("");
 const { name, email } = formValue;
 const handleInputChange = (e) => {
     let {name,value} = e.target;
+    console.log({[name]:value},"name");
+    console.log(value,"value");
     //on everykeyStroke 
     setFormValue({ ...formValue,[name]:value});
     
