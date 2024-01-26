@@ -31,6 +31,10 @@ import MyForm from './Assignment/Practice/components/MyForm';
 import YoutubeForm from './Assignment/Practice/useForm/components/YoutubeForm';
 import Create from './Redux-thunk-logger-axios-json/ReduxCrudUseForm/Components/Create';
 import ReactAntdPagination from './Assignment/Practice/components/ReactAntdPagination';
+import Crud from './Assignment/Practice/components/Crud';
+import SearchUsers from './Assignment/Practice/HOC/UsersList';
+import SearchTodos from './Assignment/Practice/HOC/TodoList';
+
 // import FirstTable from './Galaxy/components/FirstTable';
 // import BasicSorting from './Galaxy/components/BasicSorting';
 // import DataTable from 'react-data-table-component';
@@ -68,7 +72,7 @@ function App() {
         {/* stepper with form @mui errors resolve in console */}
    {/* <RefHook/> */}
    {/* <Mains /> */}
-   {/* <ReducerHook/> */}
+   <ReducerHook/>
    {/* <MainPage/> */}
    {/* <ShopApp/> */}
   {/* Daily quiz */}
@@ -96,13 +100,28 @@ function App() {
 {/* <p className='fw-bold'>add</p> */}
 {/* reduxSaga */}
 {/* useForm */}
-<YoutubeForm/>
+{/* <YoutubeForm/> */}
 {/* useForm */}
 {/* <AddUser /> */}
 {/* useFromCrud */}
 {/* <Create/> */}
 {/* useFromCrud */}
 {/* <ReactAntdPagination /> */}
+{/* <Crud/> */}
+
+
+{/* <AddCrud/> */}
+{/* <Mains/> */}
+<h2>Higher Order Component</h2>
+      <div className="section">
+        <div>
+          <SearchUsers />
+        </div>
+        <div>
+          <SearchTodos />
+        </div>
+      </div>
+
      </div>
   );
 }

@@ -1,0 +1,36 @@
+import React from 'react'
+import HOC from './HOC';
+
+function TodoList({money,handleInc}) {
+  return (
+    <div>TodoList money {money}
+    <button onClick={handleInc}>Add Increment</button>
+    </div>
+  )
+}
+
+export default HOC(TodoList);
+
+// import React, { useEffect, useState } from "react";
+// import HOC from "./HOC";
+
+// const TodoList = ({ data }) => {
+//   let renderTodos = data.map((todo) => {
+//     return (
+//       <div key={todo.userId}>
+//         <p>
+//           <strong>{todo.title}</strong>
+//         </p>
+//       </div>
+//     );
+//   });
+//   return (
+//     <div>
+//       <div>{renderTodos}</div>
+//     </div>
+//   );
+// };
+
+// const SearchTodos = HOC(TodoList, "todos");
+
+// export default SearchTodos;
