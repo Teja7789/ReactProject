@@ -80,30 +80,30 @@
 
 // export default AddCrud
 
-import React, { useState } from 'react'
-import contacts from '../../../api/contacts';
+// import React, { useState } from 'react'
+// import contacts from '../../../api/contacts';
 
-function AddCrud({addContactHandlerCrud}) {
-  const [name,setName] = useState('');
-  const [email,setEmail] = useState('');
-const addContactHandler = (e) => {
-  e.preventDefault();
-  console.log(name,email,"data");
-  addContactHandlerCrud({name,email});
-}
+// function AddCrud({addContactHandlerCrud}) {
+//   const [name,setName] = useState('');
+//   const [email,setEmail] = useState('');
+// const addContactHandler = (e) => {
+//   e.preventDefault();
+//   console.log(name,email,"data");
+//   addContactHandlerCrud({name,email});
+// }
 
-  return (
-    <div>
-      <form>
-        <input value={name} onChange={(e)=>setName(e.target.value)} />
-        <input value={email} onChange={(e)=>setEmail(e.target.value)} />
-        <button type='submit' onClick={addContactHandler}>submit</button>
-      </form>
-    </div>
-  )
-}
+//   return (
+//     <div>
+//       <form>
+//         <input value={name} onChange={(e)=>setName(e.target.value)} />
+//         <input value={email} onChange={(e)=>setEmail(e.target.value)} />
+//         <button type='submit' onClick={addContactHandler}>submit</button>
+//       </form>
+//     </div>
+//   )
+// }
 
-export default AddCrud
+// export default AddCrud
 
 
 // // import React from 'react';
@@ -158,12 +158,27 @@ export default AddCrud
 
 
 
-// import React from 'react'
+import React, { useState } from 'react'
 
-// function AddCrud() {
-//   return (
-//     <div>AddCrud</div>
-//   )
-// }
+function AddCrud({addContactHandlerCrud}) {
+  const [name,setName] = useState('');
+  const [email,setEmail] = useState('');
+const addContactHandler = (e) => {
+  e.preventDefault();
+  addContactHandlerCrud({name,email});
+}
+ 
+  return (
+    <div>AddCrud
+<form>
+        <input value={name} onChange={(e)=>setName(e.target.value)} />
+         <input value={email} onChange={(e)=>setEmail(e.target.value)} />
+         <button type='submit' onClick={addContactHandler}>submit</button>
 
-// export default AddCrud
+</form>
+
+    </div>
+  )
+}
+
+export default AddCrud
