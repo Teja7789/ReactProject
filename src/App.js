@@ -5,7 +5,7 @@ import Main from "./CrudApp/Components/Main";
 import Root from './Pcrud/Root';
 import { Route, Switch } from 'react-router';
 import Users from './Redux-thunk-logger-axios-json/component/Users';
-import Home from './Pcrud/components/StepperForms';
+// import Home from './Pcrud/components/StepperForms';
 import StepperForm from './Assignment/StepperForm/StepperForm';
 import StepperForms from './Pcrud/components/StepperForms';
 import Contacts from './Redux-thunk-logger-axios-json/redux/Pages/Contacts';
@@ -34,7 +34,9 @@ import ReactAntdPagination from './Assignment/Practice/components/ReactAntdPagin
 import Crud from './Assignment/Practice/components/Crud';
 import SearchUsers from './Assignment/Practice/HOC/UsersList';
 import SearchTodos from './Assignment/Practice/HOC/TodoList';
-
+import Home from './Redux-saga-logger-axios-json/pages/Home';
+import MainStateProp from './Assignment/Practice/StateAndProps/MainStateProp';
+import FunctionUnMountComponent from './Assignment/Practice/FunctionUnMountComponent';
 // import FirstTable from './Galaxy/components/FirstTable';
 // import BasicSorting from './Galaxy/components/BasicSorting';
 // import DataTable from 'react-data-table-component';
@@ -72,7 +74,7 @@ function App() {
         {/* stepper with form @mui errors resolve in console */}
    {/* <RefHook/> */}
    {/* <Mains /> */}
-   <ReducerHook/>
+   {/* <ReducerHook/> */}
    {/* <MainPage/> */}
    {/* <ShopApp/> */}
   {/* Daily quiz */}
@@ -112,7 +114,7 @@ function App() {
 
 {/* <AddCrud/> */}
 {/* <Mains/> */}
-<h2>Higher Order Component</h2>
+{/* <h2>Higher Order Component</h2>
       <div className="section">
         <div>
           <SearchUsers />
@@ -120,8 +122,11 @@ function App() {
         <div>
           <SearchTodos />
         </div>
-      </div>
-
+      </div> */}
+{/* <Home  /> */}
+{/* <Crud/> */}
+{/* <MainStateProp/> */}
+<FunctionUnMountComponent />
      </div>
   );
 }
