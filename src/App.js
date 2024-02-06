@@ -34,7 +34,7 @@ import ReactAntdPagination from './Assignment/Practice/components/ReactAntdPagin
 import Crud from './Assignment/Practice/components/Crud';
 import SearchUsers from './Assignment/Practice/HOC/UsersList';
 import SearchTodos from './Assignment/Practice/HOC/TodoList';
-import Home from './Redux-saga-logger-axios-json/pages/Home';
+// import Home from './Redux-saga-logger-axios-json/pages/Home';
 import MainStateProp from './Assignment/Practice/StateAndProps/MainStateProp';
 import FunctionUnMountComponent from './Assignment/Practice/FunctionUnMountComponent';
 // import FirstTable from './Galaxy/components/FirstTable';
@@ -45,7 +45,10 @@ import FunctionUnMountComponent from './Assignment/Practice/FunctionUnMountCompo
 // import TableBasicSorting from './Galaxy/components/BasicSorting.js';
 // import DataTable from './Galaxy/components/DataTableComp';
 // import DataTableComp from './Galaxy/components/FirstTable';
-
+import Home from './Redux-saga-logger-axios-json/pages/Home';
+import PostUser from './Redux-saga-logger-axios-json/pages/PostUser';
+import GridLayout from './Assignment/Practice/CSS/Bootstrap/GridLayout';
+import ScssIndex from './Assignment/Practice/CSS/SCSS/BootStrap/ScssIndex';
 
 
 function App() {
@@ -126,7 +129,18 @@ function App() {
 {/* <Home  /> */}
 {/* <Crud/> */}
 {/* <MainStateProp/> */}
-<FunctionUnMountComponent />
+{/* <FunctionUnMountComponent /> */}
+{/* <Home />
+<PostUser /> */}
+
+{/* CSS */}
+{/* Bootstrap */}
+{/* <GridLayout/> */}
+{/* SCSS */}
+{/* <ScssIndex /> */}
+{/* SCSS */}
+{/* Bootstrap */}
+{/* CSS */}
      </div>
   );
 }

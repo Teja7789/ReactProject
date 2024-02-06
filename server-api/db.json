@@ -14,6 +14,16 @@
       "id": "3c0e3bc9-79e4-4f89-adf2-ab76a8aac39c",
       "name": "max",
       "email": "max@gmail.com"
+    },
+    {
+      "email": "test",
+      "password": "test",
+      "id": "OI6IoRM"
+    },
+    {
+      "email": "test1",
+      "password": "test2",
+      "id": "tn-JbF5"
     }
   ],
   "users": [
