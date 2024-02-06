@@ -13,7 +13,8 @@ import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 // import App from './Redux-saga-logger-axios-json/components/App';
 // import store from './Redux-saga-logger-axios-json/reduxSaga/store';
 import {Provider}  from "react-redux";
-import store from "./Redux-thunk-logger-axios-json/ReduxCrudUseForm/Store";
+import store from './Redux-saga-logger-axios-json/reduxSaga/store';
+// import store from "./Redux-thunk-logger-axios-json/ReduxCrudUseForm/Store";
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
