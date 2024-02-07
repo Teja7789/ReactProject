@@ -54,6 +54,8 @@ import Day2 from './Assignment/Practice/CSS/Day2';
 import Day3 from './Assignment/Practice/CSS/Day3';
 import Day4 from './Assignment/Practice/CSS/Day4';
 import Day5 from './Assignment/Practice/CSS/Day5';
+import DataAsyncUi from './Assignment/Practice/REACT/UseStateConcept/DataAsyncUi';
+import ParentComponent from './Assignment/Practice/REACT/PropsConcept/PropsDrilling/ParentComponent';
 
 
 function App() {
@@ -152,6 +154,12 @@ function App() {
 {/* SCSS */}
 {/* Bootstrap */}
 {/* CSS */}
+{/* Props */}
+<ParentComponent />
+{/* Props */}
+{/* UseSate */}
+{/* <DataAsyncUi /> */}
+{/* UseState */}
      </div>
   );
 }
