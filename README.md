@@ -23,6 +23,59 @@ In the project directory, you can run:
 ## stepperForm
 ## stepperForm 2 links in code sandbox
 <!-- mui stepper -->
+<!-- npm Upgrading  v6 to v7-->
+```Jsx
+ npm config set legacy-peer-deps true
+```
+<!-- npm Upgrading -->
+<!-- SCSS -->
+## Setting up SCSS in ReactJS - Error Not resolved
+```Jsx
+npm install node-sass --save
+npm install sass-loader --save
+//  or
+npm install node-sass@4.14.1
+
+```
+## SCSS 
+```Jsx
+/* Define a variable */
+$primary-color: #4286f4;
+
+/* Use the variable in a class definition */
+.header {
+  background-color: $primary-color;
+}
+
+/* Nest classes */
+.container {
+  .header {
+    font-size: 24px;
+  }
+
+  .content {
+    font-size: 16px;
+  }
+}
+
+/* Define a mixin */
+@mixin border-radius($radius) {
+  border-radius: $radius;
+}
+
+/* Use the mixin in a class definition */
+.button {
+  @include border-radius(4px);
+}
+```
+## Error windows Not resolved
+```Jsx
+ npm install -g node-gyp  --legacy-peer-deps
+(node cmd run as adiministrator)  npm i windows-build-tools --legacy-peer-deps
+npm i
+```
+<!-- SCSS -->
+
 ### `yarn start`
 
 Runs the app in the development mode.<br />

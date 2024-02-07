@@ -19,6 +19,24 @@
 
 // export default ScssIndex
 
+// import React, { Component } from 'react';
+ 
+// import './App.scss';
+ 
+// class ScssIndex extends Component {
+ 
+//     render() {
+//         return (
+//             <div className="gfg">
+//                 <h1>Geeks for Geeks</h1>
+//             </div>
+//         );
+//     }
+ 
+// }
+ 
+// export default ScssIndex;
+
 import React from 'react'
 
 function ScssIndex() {

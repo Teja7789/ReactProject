@@ -49,6 +49,11 @@ import Home from './Redux-saga-logger-axios-json/pages/Home';
 import PostUser from './Redux-saga-logger-axios-json/pages/PostUser';
 import GridLayout from './Assignment/Practice/CSS/Bootstrap/GridLayout';
 import ScssIndex from './Assignment/Practice/CSS/SCSS/BootStrap/ScssIndex';
+import Day1 from './Assignment/Practice/CSS/Day1';
+import Day2 from './Assignment/Practice/CSS/Day2';
+import Day3 from './Assignment/Practice/CSS/Day3';
+import Day4 from './Assignment/Practice/CSS/Day4';
+import Day5 from './Assignment/Practice/CSS/Day5';
 
 
 function App() {
@@ -133,6 +138,12 @@ function App() {
 {/* <Home />
 <PostUser /> */}
 
+{/* CSS */}
+{/* <Day1 /> */}
+{/* <Day2 /> */}
+{/* <Day3 /> */}
+{/* <Day4 /> */}
+{/* <Day5 /> */}
 {/* CSS */}
 {/* Bootstrap */}
 {/* <GridLayout/> */}
