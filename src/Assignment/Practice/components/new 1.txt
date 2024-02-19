@@ -1,0 +1,664 @@
+/*
+
+rajesh 09/26/2022  2701352898 report master changes
+akhila  10/31/2022  2701352898 run report changes
+akhila  11/04/2022  2701352898 integrate print api
+Sai Krishna 11/08/2022 3031450488 Integrated dbcollector multi select API
+Sai Krishna 11/11/2022 3031450488 After run table refresh bug fixed
+Sai maheshwar 12/01/2022 2701350359 fixed runreport download issue.
+akhila 12/3/2022 2701350359 integrated download configuration api 
+Ashraf 12/07/2022 2701350359 fixed userName page break issue 
+Ashraf 12/07/2022 2701350359 mapped userName for dropdown values
+Ashraf 12/19/2022 2701350359 commented data modification for get username results
+
+*/
+import axios from "axios";
+
+import { createSlice } from "@reduxjs/toolkit";
+import { httpGet, httpPost } from "../../../util/Rest";
+import { ACCESS_METHOD, REPORT_TYPE } from "../../../constants/MicroServiceConstants";
+import { DISPOSITION_CODE, DATE_FORMAT, FIELD_SEPERATOR, PHASE } from "../../../constants/Lookup";
+import download from "../../../util/DownloadLink";
+
+const initialData = {
+  isLoading: false,
+  errorMsg: null,
+  successMsg: null,
+  addReportMasterStatus: null,
+  reportMasterData: {},
+  dropDownData: {},
+  viewFormFileUrl: null,
+  reportMasterDocKeyMsg: null,
+  clientCodeData: null,
+  collectorsData: null,
+  accessMethodRunListData: [],
+  runReportData: {},
+  systemNotesStatus: null,
+  fieldCodeData: [],
+  actionData: [],
+  promptData: [],
+  isSystemNoteLoading: null,
+  userNameData: [],
+  roleNameData: [],
+  fieldListData: [],
+  filterData: [],
+  runReportToggle: "",
+  configurationUrl: "",
+};
+
+const slice = createSlice({
+  name: "addReportMaster",
+  initialState: {
+    ...initialData,
+  },
+  reducers: {
+    fetchStart: (state) => {
+      state.isLoading = true;
+      state.errorMsg = null;
+    },
+    fetchNoteStart: (state) => {
+      state.isSystemNoteLoading = true;
+      state.errorMsg = null;
+    },
+    postReportMasterData: (state, action) => {
+      state.addReportMasterStatus = action.payload.status;
+      state.isLoading = false;
+      state.errorMsg = null;
+      state.successMsg = action.payload.response;
+    },
+    postSystemNotesData: (state, action) => {
+      state.systemNotesStatus = action.payload.status;
+      state.isSystemNoteLoading = false;
+      state.isLoading = false;
+      state.errorMsg = null;
+      state.successMsg = action.payload.response;
+    },
+    postFieldCodeData: (state, action) => {
+      state.promptData = action.payload.response;
+      state.isLoading = false;
+      state.errorMsg = null;
+      state.successMsg = action.payload.message;
+    },
+    getReportMasterData: (state, action) => {
+      state.reportMasterData = action.payload;
+      state.isLoading = false;
+      state.errorMsg = null;
+      state.addReportMasterStatus = action.payload.status;
+      state.successMsg = action.payload.response;
+    },
+    fetchSuccess: (state, action) => {
+      state.successMsg = action.payload.response;
+      state.isLoading = false;
+    },
+    fetchError: (state, action) => {
+      state.errorMsg = action?.payload?.data?.message ? action.payload.data.message : "";
+      state.isLoading = false;
+      state.isSystemNoteLoading = false;
+    },
+    resetStatus: (state, action) => {
+      state.addReportMasterStatus = null;
+      state.isLoading = false;
+      state.reportMasterData = {};
+    },
+    resetNotesStatus: (state, action) => {
+      state.addReportMasterStatus = null;
+      state.isLoading = false;
+      state.isSystemNoteLoading = false;
+    },
+    resetMessage: (state, action) => {
+      state.successMsg = null;
+      state.isLoading = false;
+      state.errorMsg = null;
+      state.runReportToggle = "";
+      state.isSystemNoteLoading = false;
+      state.systemNotesStatus = null;
+    },
+    resetReportMasterData: (state, action) => {
+      state.isLoading = false;
+      state.errorMsg = null;
+      state.successMsg = null;
+      state.addReportMasterStatus = null;
+      state.reportMasterData = {};
+    },
+    fetchDropDownData: (state, action) => {
+      state.dropDownData = action.payload;
+      state.isLoading = false;
+      state.errorMsg = null;
+    },
+    fetchClientCodeData: (state, action) => {
+      state.clientCodeData = action.payload;
+      state.isLoading = false;
+      state.errorMsg = null;
+    },
+
+    fetchCollectorsData: (state, action) => {
+      state.collectorsData = action.payload;
+      state.isLoading = false;
+      state.errorMsg = null;
+    },
+
+    fetchUserNameData: (state, action) => {
+      state.userNameData = action.payload;
+      state.isLoading = false;
+      state.errorMsg = null;
+    },
+
+    fetchRoleNameData: (state, action) => {
+      state.roleNameData = action.payload;
+      state.isLoading = false;
+      state.errorMsg = null;
+    },
+    setAccessMethodRunList: (state, action) => {
+      state.accessMethodRunListData = action.payload;
+      state.isLoading = false;
+      state.errorMsg = null;
+    },
+    setRunReportData: (state, action) => {
+      state.runReportData = action.payload;
+      state.isLoading = false;
+      state.errorMsg = null;
+    },
+    fetchSuccessReportRun: (state, action) => {
+      state.addReportMasterStatus = action.payload.status;
+      state.reportMasterDocKeyMsg = action.payload.message;
+      state.runReportToggle = action.payload.status;
+    },
+    resetRunReport: (state, action) => {
+      state.runReportToggle = "";
+    },
+    getFieldData: (state, action) => {
+      state.fieldCodeData = action.payload;
+      state.isLoading = false;
+      state.errorMsg = null;
+    },
+    getFieldListData: (state, action) => {
+      state.fieldListData = action.payload;
+      state.isLoading = false;
+      state.errorMsg = null;
+    },
+    getFilterData: (state, action) => {
+      state.filterData = action.payload;
+      state.isLoading = false;
+      state.errorMsg = null;
+    },
+    getActionData: (state, action) => {
+      state.actionData = action.payload;
+      state.isLoading = false;
+      state.errorMsg = null;
+    },
+    setConfigUrl: (state, action) => {
+      state.isLoading = false;
+      state.configurationUrl = action.payload;
+    },
+    resetConfigUrl: (state, action) => {
+      state.configurationUrl = "";
+    },
+    fetchErrorReportRun: (state, action) => {
+      state.errorMsg = action.payload?.data?.message
+        ? action.payload?.data?.message
+        : action.payload.statusText
+        ? action.payload.statusText
+        : "";
+      state.isLoading = false;
+    },
+    fetchSuccessGenerateUrl: (state, action) => {
+      state.viewFormFileUrl = action.payload.data;
+      state.isLoading = false;
+    },
+    resetFileUrl: (state, action) => {
+      state.viewFormFileUrl = null;
+    },
+    resetFilter: (state, action) => {
+      state.filterData = [];
+    },
+  },
+});
+
+export default slice.reducer;
+
+// Actions
+
+export const {
+  fetchStart,
+  postReportMasterData,
+  getReportMasterData,
+  fetchSuccess,
+  fetchError,
+  resetMessage,
+  resetStatus,
+  resetReportMasterData,
+  fetchDropDownData,
+  fetchSuccessReportRun,
+  fetchErrorReportRun,
+  fetchSuccessGenerateUrl,
+  resetFileUrl,
+  getFieldData,
+  getActionData,
+  postFieldCodeData,
+  fetchClientCodeData,
+  fetchCollectorsData,
+  setAccessMethodRunList,
+  setRunReportData,
+  fetchNoteStart,
+  postSystemNotesData,
+  resetNotesStatus,
+  fetchUserNameData,
+  fetchRoleNameData,
+  getFieldListData,
+  getFilterData,
+  resetFilter,
+  resetRunReport,
+  setConfigUrl,
+  resetConfigUrl,
+} = slice.actions;
+export const getDropDownData = () => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpPost(`lookup/find/all/lookup`, {
+      typeCode: [ACCESS_METHOD, REPORT_TYPE, DISPOSITION_CODE, DATE_FORMAT, FIELD_SEPERATOR, PHASE],
+    })
+      .then((data) => {
+        if (data && data.status && data.status === 200) {
+          dispatch(fetchDropDownData(data.data));
+        } else {
+          dispatch(fetchError(data?.data?.error));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error.message));
+      });
+  };
+};
+export const postReportMaster = (details) => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpPost(`reportstransaction/save/transactionreport`, details)
+      .then((data) => {
+        if (data?.status === 200 && data?.data?.status === 400) {
+          dispatch(fetchError(data));
+        } else if (data && data.status && data.status === 200) {
+          dispatch(postReportMasterData(data));
+          dispatch(fetchSuccess(data));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error.message));
+      });
+  };
+};
+export const postSystemNotes = (details) => {
+  return (dispatch) => {
+    dispatch(fetchNoteStart());
+    httpPost(`report/save/reportmasternotes`, details)
+      .then((data) => {
+        if (data && data.status && data.status === 200) {
+          dispatch(postSystemNotesData(data));
+        } else {
+          dispatch(fetchError(data?.data?.error));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error.message));
+      });
+  };
+};
+export const fetchReportMaster = (reportMasterId) => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpGet(`reportstransaction/get/report/${reportMasterId}`)
+      .then((data) => {
+        if (data.status === 200 && data?.data?.status === 400) {
+          dispatch(fetchError(data));
+        } else if (data && data.status && data.status === 200) {
+          dispatch(getReportMasterData(data.response));
+          dispatch(fetchSuccess(data.response));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error.message));
+      });
+  };
+};
+
+export const postRunAReport = (details) => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpPost(`report/execution/executeNewReport`, details)
+      .then((data) => {
+        if (data?.status === 500 || data?.status === 400 || data?.data?.status === 400) {
+          dispatch(fetchErrorReportRun(data));
+        } else if (data && data.status && data.status === 200) {
+          dispatch(fetchSuccessReportRun(data));
+          dispatch(fetchSuccess(data));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchErrorReportRun(error.message));
+      });
+  };
+};
+
+export const postGenerateUrl = (details) => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpPost(`reportformat/generateUrl`, details)
+      .then((data) => {
+        if (data?.status === 500 || data?.status === 400) {
+          dispatch(fetchError(data));
+        } else if (data && data.status && data.status === 200) {
+          dispatch(fetchSuccessGenerateUrl(data));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchErrorReportRun(error.message));
+      });
+  };
+};
+
+export const postFieldCode = (details) => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpPost(`accessmethod/find/prompt1`, details)
+      .then((data) => {
+        if (data?.status === 200 && data?.data?.status === 400) {
+          dispatch(fetchError(data));
+        } else if (data && data.status && data.status === 200) {
+          dispatch(postFieldCodeData(data));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error.message));
+      });
+  };
+};
+
+export const printRecordMaster = (payload, printData) => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpPost(`reportstransaction/generateurlprintreport`, payload)
+      .then((data) => {
+        if (data && data.status && data.status === 200) {
+          // dispatch(fetchSuccess(printData));
+          dispatch(setConfigUrl(data?.data || ""));
+        } else {
+          dispatch(fetchError(data?.data?.error));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error?.message));
+      });
+  };
+};
+
+export const postPrintRecordMaster = (data) => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpPost(`reportstransaction/print/reporttransactionmaster`, data)
+      .then((data) => {
+        if (data && data.status && data.status === 200) {
+          console.log(data, "print");
+          dispatch(printRecordMaster({ dockey: data?.message }, data));
+        } else {
+          dispatch(fetchError(data?.data?.error));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error?.message));
+      });
+  };
+};
+export const printWorkqueueMaster = (payload, printData) => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpPost(`reportstransaction/generateurlprintworkqueue`, payload)
+      .then((data) => {
+        if (data && data.status && data.status === 200) {
+          dispatch(fetchSuccess(printData));
+          download(data.data);
+        } else {
+          dispatch(fetchError(data?.data?.error));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error?.message));
+      });
+  };
+};
+export const postPrintWorkqueueMaster = (data) => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpPost(`reportstransaction/print/workqueue`, data)
+      .then((data) => {
+        if (data && data.status && data.status === 200) {
+          dispatch(printWorkqueueMaster({ dockey: data?.message }, data));
+        } else {
+          dispatch(fetchError(data?.data?.error));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error?.message));
+      });
+  };
+};
+export const downloadFileByUrl = (docKey) => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpGet(`reportformat/download/${docKey}.csv`)
+      .then((data) => {
+        if (data?.status === 500 || data?.status === 400) {
+          dispatch(fetchError(data));
+        } else if (data && data.status && data.status === 200) {
+          dispatch(fetchSuccessGenerateUrl(data));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchErrorReportRun(error.message));
+      });
+  };
+};
+
+export const getClientCodeData = () => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpGet(`client/search/clientcode/all`)
+      .then((data) => {
+        if (data.status === 200 && data?.data?.status === 400) {
+          dispatch(fetchError(data));
+        } else if (data && data.status && data.status === 200) {
+          dispatch(fetchClientCodeData(data.response));
+          dispatch(fetchSuccess(data.response));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error.message));
+      });
+  };
+};
+
+export const getCollectorsData = () => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpGet(`reportstransaction/findall/collertors`)
+      .then((data) => {
+        if (data.status === 200 && data?.data?.status === 400) {
+          dispatch(fetchError(data));
+        } else if (data && data.status && data.status === 200) {
+          dispatch(fetchCollectorsData(data.response));
+          dispatch(fetchSuccess(data.response));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error.message));
+      });
+  };
+};
+
+export const reportMasterUserName = () => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpGet(`get/all/username`)
+      .then((data) => {
+        if (data.status === 200 && data?.data?.status === 400) {
+          dispatch(fetchError(data));
+        } else if (data && data.status && data.status === 200) {
+          // let dataReformed = [];
+          // dataReformed = data && data?.response?.length > 0 && data?.response?.map((i) => {
+          //   return {userName: i?.userName };
+          // });
+          dispatch(fetchUserNameData(data?.response));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error.message));
+      });
+  };
+};
+
+export const reportMasterRoleName = () => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpGet(`get/all/role/rolename`)
+      .then((data) => {
+        if (data.status === 200 && data?.data?.status === 400) {
+          dispatch(fetchError(data));
+        } else if (data && data.status && data.status === 200) {
+          dispatch(fetchRoleNameData(data.response));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error.message));
+      });
+  };
+};
+
+export const getAccessMethodRunList = () => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpGet(`lookup/find/json/ACCESS_METHOD_RUN`)
+      .then((data) => {
+        if (data.status === 200 && data?.data?.status === 400) {
+          dispatch(fetchError(data));
+        } else if (data && data.status && data.status === 200) {
+          dispatch(setAccessMethodRunList(data.response));
+          dispatch(fetchSuccess(data.response));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error.message));
+      });
+  };
+};
+
+export const getRunReportData = (reportId) => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpGet(`reportformat/find/runjson/${reportId}`)
+      .then((data) => {
+        if (data.status === 200 && data?.data?.status === 400) {
+          dispatch(fetchError(data));
+        } else if (data && data.status && data.status === 200) {
+          dispatch(setRunReportData(data.response));
+          dispatch(fetchSuccess(data.response));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error.message));
+      });
+  };
+};
+
+export const getFieldCode = () => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpGet(`accessmethod/find/all/fieldcode`)
+      .then((data) => {
+        if (data.status === 200 && data?.data?.status === 400) {
+          dispatch(fetchError(data));
+        } else if (data && data.status && data.status === 200) {
+          dispatch(getFieldData(data.response));
+          dispatch(fetchSuccess(data.response));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error.message));
+      });
+  };
+};
+export const getFieldList = () => {
+  return (dispatch) => {
+    // dispatch(fetchStart());
+    httpGet(`globalfield/find/all/fieldlistcodeanddescription`)
+      .then((data) => {
+        if (data.status === 200 && data?.data?.status === 400) {
+          dispatch(fetchError(data));
+        } else if (data && data.status && data.status === 200) {
+          dispatch(getFieldListData(data.response));
+          dispatch(fetchSuccess(data.response));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error.message));
+      });
+  };
+};
+export const getFilterGroup = (fieldListCode) => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpGet(`rules/find/all/filtergroupcode/${fieldListCode}`)
+      .then((data) => {
+        if (data.status === 200 && data?.data?.status === 400) {
+          dispatch(fetchError(data));
+        } else if (data && data.status && data.status === 200) {
+          dispatch(getFilterData(data.response));
+          dispatch(fetchSuccess(data.response));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error.message));
+      });
+  };
+};
+export const getActions = (fieldCode) => {
+  return (dispatch) => {
+    dispatch(fetchStart());
+    httpGet(`accessmethod/find/filtercondition/${fieldCode}`)
+      .then((data) => {
+        if (data.status === 200 && data?.data?.status === 400) {
+          dispatch(fetchError(data));
+        } else if (data && data.status && data.status === 200) {
+          dispatch(getActionData(data.response));
+          dispatch(fetchSuccess(data.response));
+        }
+      })
+      .catch((error) => {
+        dispatch(fetchError(error.message));
+      });
+  };
+};
+
+export const ResetStatus = () => {
+  return (dispatch) => {
+    dispatch(resetStatus());
+  };
+};
+export const ResetMessage = () => {
+  return (dispatch) => {
+    dispatch(resetMessage());
+  };
+};
+
+export const ResetUrl = () => {
+  return (dispatch) => {
+    dispatch(resetFileUrl());
+  };
+};
+export const ResetFilter = () => {
+  return (dispatch) => {
+    dispatch(resetFilter());
+  };
+};
+export const ResetRunReportToggle = () => {
+  return (dispatch) => {
+    dispatch(resetRunReport());
+  };
+};

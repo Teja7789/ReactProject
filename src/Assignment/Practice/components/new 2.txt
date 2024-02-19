@@ -1,0 +1,394 @@
+/*
+saikrishna 11/24/2022 3031450488 Created a new Ui for Reports
+saikrishna 11/25/2022  3031450488 Added BasicInfo new Ui fields 
+Sai Maheshwar 11/25/2022 3031450488 added reportFields components
+akhila 11/25/2022 3031450488 Added props to additionalInfo 
+Sohel 11/25/2022  3031450488 Added Filters new Ui fields 
+Sohel 11/26/2022  3031450488 Filter Changes
+Saikrishna 11/28/2022 2701350359 Added Stepper Click and styling functionality.
+Gummala Prakash 11/28/2022 2701350359 Added spacing alignment.
+akhila 1/12/2022 2701350359 Added workqueues
+akhila 2/12/2022 2701350359 Added workqueues steps
+akhila 3/12/2022 2701350359 changed imports for basicinfo and additionalInfo
+Sai Maheshwar 12/04/2022 2698948956 Added map fields save close buttons
+Sai Maheshwar 12/05/2022 3031450488 added map fields save and close
+Ravi 12/07/2022 3031450488 Fixed UAT bugs
+Sai maheshwar 12/08/2022 3031450488 fixed unsaved changes alert bug
+Lalitha 12/09/2022  3031450488  Added reusable backButtonText 
+Poornima 12/09/2022 3031450488 Added download configurations buttons
+Sai maheshwar 12/12/2022 3031450488 fixed draft issue
+Sohel 12/13/2022 3031450488 fixed completed step issue
+Suresh peddavoora 12/21/2022 3031450488 Fixed stepper alignments in responsive
+*/
+import React, { useRef, useEffect } from "react";
+import {
+  TextField,
+  Typography,
+  Button,
+  FormHelperText,
+  FormControl,
+  makeStyles,
+  Stepper,
+  StepLabel,
+  Step,
+  InputLabel,
+  Select,
+  MenuItem,
+  withStyles,
+} from "@material-ui/core";
+import { ArrowBack } from "@material-ui/icons";
+import ReusableInputStyles from "../../../../components/InputStyles";
+import BasicInfo from "./StepperComponents/BasicInfo";
+import ReportFields from "./StepperComponents/ReportFields";
+import Scheduler from "./StepperComponents/Scheduler";
+import AdditionalInfo from "./StepperComponents/AdditionalInfo";
+import Filters from "./StepperComponents/Filters";
+import { useDispatch, useSelector } from "react-redux";
+import StepConnector from "@material-ui/core/StepConnector";
+import WorkQueueBasicInfo from "./../../../Dashboard/WorkQueueMaintenance/BasicInfo";
+import WorkQueueAdditionalInfo from "./../../../Dashboard/WorkQueueMaintenance/AdditionalInfo";
+import { setAlertData } from "../../../../redux/reducers/UnsavedChangesAlertReducer";
+import useUnsavedChangesWarning from "../../../../util/CustomHooks";
+import { backButtonText } from "../../../../util/Content";
+import {
+  postPrintRecordMaster,
+  postPrintWorkqueueMaster,
+  ResetMessage,
+} from "../../../../redux/reducers/BRE/AddReportMaster";
+import { ErrorSnackbar, SuccessSnackbar } from "../../../../components/CustomSnackBar";
+import PageLoader from "../../../../components/PageLoader";
+import { REPORTING_EXPORT, WORK_QUEUE_SETUP } from "../../../../constants/ReusableRoleAccess";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+  },
+  backButton: {
+    marginRight: theme.spacing(1),
+  },
+  instructions: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+  stepperIcon: {
+    "& .MuiStepLabel-iconContainer": {
+      "& .MuiStepIcon-root": {
+        width: "35px !important",
+        height: "35px !important",
+      },
+    },
+    "& .MuiStepIcon-completed": {
+      color: "#320469",
+    },
+    "& .MuiStepIcon-active": {
+      color: "#320469",
+    },
+    "& .MuiStepLabel-labelContainer": {
+      "& .MuiTypography-root": {
+        fontSize: "1rem",
+        fontWeight: "bold",
+        [theme.breakpoints.down("md")]: {
+          fontSize: "0.75rem",
+        },
+      },
+    },
+  },
+}));
+
+const steps = ["Basic Info", "Select Fields", "Filters", "Additional Info", "Schedule"];
+const Workqueuesteps = [
+  "Basic Info",
+  "Work Queue Fields",
+  "Filters",
+  "Additional Info",
+  "Schedule",
+];
+const QontoConnector = withStyles({
+  alternativeLabel: {
+    top: 10,
+    left: "calc(-50% + 16px)",
+    right: "calc(50% + 16px)",
+  },
+  active: {
+    "& $line": {
+      borderColor: "#9068c1",
+    },
+  },
+  completed: {
+    "& $line": {
+      borderColor: "#9068c1",
+    },
+  },
+  line: {
+    borderColor: "#eaeaf0",
+    borderTopWidth: 3,
+    borderRadius: 1,
+  },
+})(StepConnector);
+const AddReport = ({ setTabValue, workQueue, setWorkQueue, editExisting }) => {
+  const stepperClasses = useStyles();
+  const dispatch = useDispatch();
+  const classes = ReusableInputStyles();
+  const { isDraftReport, basicInfoData, lastStep } = useSelector(
+    ({ reportMaster }) => reportMaster
+  );
+  const { isLoading, successMsg, errorMsg } = useSelector(
+    ({ addReportMaster }) => addReportMaster
+  );
+  const { roleData } = useSelector(({ role }) => role);
+  const reportRoleAccess = roleData?.window?.[REPORTING_EXPORT]?.RE;
+  const workQueueSetupAccess = roleData?.window?.[WORK_QUEUE_SETUP]?.WQS;
+  console.log(editExisting);
+  const roleAccess =
+    (workQueue && basicInfoData?.reportCode && !workQueueSetupAccess?.edit && editExisting) ||
+    (!workQueue && basicInfoData?.reportCode && !reportRoleAccess?.edit && editExisting);
+
+  const [activeStep, setActiveStep] = React.useState(lastStep);
+  const showAlertRef = useRef(false);
+  const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  let changeDirty = useRef(true);
+  const handleDirty = (dirty, isFixed) => {
+    if (isFixed === "fixed") {
+      showAlertRef.current = dirty;
+      changeDirty.current = false;
+      if (dirty) {
+        onDirty();
+      } else {
+        onPristine();
+      }
+    }
+    if (isFixed === "reset") {
+      showAlertRef.current = false;
+      changeDirty.current = true;
+      onPristine();
+    }
+    if (changeDirty.current) {
+      showAlertRef.current = dirty;
+      if (dirty) {
+        onDirty();
+      } else {
+        onPristine();
+      }
+    }
+  };
+  const alertProps = {
+    showAlertRef,
+    handleDirty,
+  };
+  const getStepContent = (index) => {
+    switch (index) {
+      case 0:
+        return (
+          <>
+            {workQueue ? (
+              <WorkQueueBasicInfo
+                handleBack={handleBack}
+                activeStep={activeStep}
+                handleNext={handleNext}
+                roleAccess={roleAccess}
+                {...alertProps}
+              />
+            ) : (
+              <BasicInfo
+                handleBack={handleBack}
+                activeStep={activeStep}
+                handleNext={handleNext}
+                workQueue={workQueue}
+                roleAccess={roleAccess}
+                {...alertProps}
+              />
+            )}
+          </>
+        );
+      case 1:
+        return (
+          <ReportFields
+            handleBack={handleBack}
+            activeStep={activeStep}
+            handleNext={handleNext}
+            workQueue={workQueue}
+            editExisting={editExisting}
+            {...alertProps}
+          />
+        );
+      case 2:
+        return (
+          <Filters
+            handleNext={handleNext}
+            handleBack={handleBack}
+            workQueue={workQueue}
+            editExisting={editExisting}
+            {...alertProps}
+          />
+        );
+      case 3:
+        return (
+          <>
+            {workQueue ? (
+              <WorkQueueAdditionalInfo
+                handleBack={handleBack}
+                handleNext={handleNext}
+                setTabValue={setTabValue}
+                workQueue={workQueue}
+                editExisting={editExisting}
+                {...alertProps}
+              />
+            ) : (
+              <AdditionalInfo
+                handleBack={handleBack}
+                handleNext={handleNext}
+                setTabValue={setTabValue}
+                workQueue={workQueue}
+                editExisting={editExisting}
+                {...alertProps}
+              />
+            )}
+          </>
+        );
+      case 4:
+        return (
+          <Scheduler
+            setTabValue={setTabValue}
+            handleBack={handleBack}
+            {...alertProps}
+            workQueue={workQueue}
+            editExisting={editExisting}
+          />
+        );
+      default:
+        <p>InValid Step Index</p>;
+    }
+  };
+  useEffect(() => {
+    if (successMsg || errorMsg) {
+      setTimeout(() => {
+        dispatch(ResetMessage());
+      }, 3000);
+    }
+  }, [successMsg, errorMsg]);
+  return (
+    <>
+      <div className="button-table-spacing-mb justify-content-between">
+        <Button
+          variant="outlined"
+          type="button"
+          className={`search-btn mx-1 ${classes.buttonRoot}`}
+          onClick={() => {
+            if (showAlertRef.current) {
+              dispatch(
+                setAlertData({
+                  showAlert: showAlertRef.current,
+                  alertCallback: () => {
+                    setTabValue(0);
+                  },
+                })
+              );
+            } else {
+              setTabValue(0);
+            }
+          }}
+        >
+          <ArrowBack className="mr-2" />
+          {/* {workQueue ? "Search Work Queue" : "Search Report"} */}
+          {backButtonText}
+        </Button>
+        {basicInfoData?.reportCode && (
+          <Button
+            type="button"
+            variant="outlined"
+            className={`search-btn ml-2 ${classes.buttonRoot}`}
+            // disabled={Boolean(countTotal === 0)}
+            onClick={() => {
+              if (workQueue) {
+                dispatch(
+                  postPrintWorkqueueMaster({
+                    reportDescription: basicInfoData?.reportDescription
+                      ? basicInfoData.reportDescription
+                      : "",
+                    reportCode: basicInfoData?.reportCode ? basicInfoData.reportCode : "",
+                    orderBy: "",
+                    orderDirection: "",
+                    reportTitle: basicInfoData?.reportTitle ? basicInfoData?.reportTitle : "",
+                    createdFor: basicInfoData?.createdFor ? basicInfoData?.createdFor : "",
+                    isDraft: basicInfoData?.isDraft?.key ? basicInfoData?.isDraft?.key : "",
+                  })
+                );
+              } else {
+                dispatch(
+                  postPrintRecordMaster({
+                    reportDescription: basicInfoData?.reportDescription
+                      ? basicInfoData.reportDescription
+                      : "",
+                    reportCode: basicInfoData?.reportCode ? basicInfoData.reportCode : "",
+                    orderBy: "",
+                    orderDirection: "",
+                    reportTitle: basicInfoData?.reportTitle ? basicInfoData?.reportTitle : "",
+                    createdFor: basicInfoData?.createdFor ? basicInfoData?.createdFor : "",
+                    isDraft: basicInfoData?.isDraft?.key ? basicInfoData?.isDraft?.key : "",
+                  })
+                );
+              }
+            }}
+          >
+            Download Configuration
+          </Button>
+        )}
+      </div>
+      {routerPrompt}
+      <div className={classes.root} style={{ border: "1px solid #cfcfcf" }}>
+        <Stepper activeStep={activeStep} connector={<QontoConnector />}>
+          {(workQueue ? Workqueuesteps : steps).map((label, i) => (
+            <Step
+              key={label}
+              onClick={() => {
+                if (i < activeStep || i < lastStep) {
+                  if (showAlertRef.current) {
+                    dispatch(
+                      setAlertData({
+                        showAlert: showAlertRef.current,
+                        alertCallback: () => {
+                          setActiveStep(i);
+                        },
+                      })
+                    );
+                  } else {
+                    setActiveStep(i);
+                  }
+                }
+              }}
+              completed={
+                i <= lastStep || (label !== "Schedule" && isDraftReport === "N") || i < activeStep
+              }
+              style={{ cursor: "pointer" }}
+            >
+              <StepLabel
+                className={`${stepperClasses.stepperIcon} ${
+                  activeStep === i ? "completedStyle" : null
+                }`}
+              >
+                {label}
+              </StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        <div>
+          <div style={{ padding: "1rem 0.5rem" }}>{getStepContent(activeStep)}</div>
+        </div>
+      </div>
+      {isLoading && <PageLoader />}
+      {errorMsg && <ErrorSnackbar errorMsg={errorMsg} />}
+      {successMsg && <SuccessSnackbar successMsg={successMsg} />}
+    </>
+  );
+};
+
+export default AddReport;

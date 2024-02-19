@@ -56,6 +56,8 @@ import Day4 from './Assignment/Practice/CSS/Day4';
 import Day5 from './Assignment/Practice/CSS/Day5';
 import DataAsyncUi from './Assignment/Practice/REACT/UseStateConcept/DataAsyncUi';
 import ParentComponent from './Assignment/Practice/REACT/PropsConcept/PropsDrilling/ParentComponent';
+import BoxComponent from './Assignment/Practice/REACT/UseStateConcept/BoxComponent';
+import Cart from './ReduxToolkit/Components/Cart';
 
 
 function App() {
@@ -155,11 +157,16 @@ function App() {
 {/* Bootstrap */}
 {/* CSS */}
 {/* Props */}
-<ParentComponent />
+{/* <ParentComponent /> */}
 {/* Props */}
 {/* UseSate */}
 {/* <DataAsyncUi /> */}
+{/* <BoxComponent /> */}
 {/* UseState */}
+
+{/* reduxToolkit */}
+<Cart />
+{/* reduxToolkit */}
      </div>
   );
 }

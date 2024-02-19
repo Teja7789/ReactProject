@@ -1,0 +1,765 @@
+/*
+
+Poornima 09/19/2022 2701350359 Fixed GAL-127,132,73,60,104 bugs
+Poornima 09/23/2022 2701350359 Fixed sorting issues in report master
+RajeshK 09/26/2022 2701350359 report master changes
+RajeshK 09/26/2022 2701350359 fixed conflicts
+Sohel 10/27/2022 3031450488 Integrated get API.
+Sohel 10/27/2022 2701375033 Added Copy Functionality.
+Sohel 10/29/2022 2701350359 Added in Payload Created For and Created By Fields
+Prakash  10/26/2022 2701350359 Added classes for Table UI,Buttons and Icons.
+Ashraf  10/29/2022 2701350359 Added create new button to create a new report
+Prakash 10/29/2022 2701350359 Added New UX Changes for Buttons and Tables.
+Sohel 10/30/2022 2701350359 Added status column
+Sohel 10/30/2022 2701350359 rule group code changes field name
+Prakash 10/30/2022 2701350359 Added New UX Changes for  Table Status Chips.
+Ashraf 10/30/2022 2701350359 changed button label
+Prakash 10/31/2022 2701350359 Removed Inline-styles for table.
+Dilip 10/31/2022  2701350359 added clickable functionality for report code 
+Ashraf 10/31/2022  2701350359 aligned add report button to left
+Akhila 10/31/2022  2701350359 implemented download in table
+Sai mahesh 10/31/2022 2701350359 added status styling
+lalitha 11/01/2022 2701350359 added span element in column link
+akhila 11/02/2022 2701350359 adding title and draft in payload and title field
+Saikrishna 11/03/2022 3031450488 prompt API call made properly when needed for dynamic fields rendering
+saikrishna 11/03/2022 2701350359 changed the paginationOptions
+Dilip 11/03/2022 2701350359 Added report code in delete popup
+akhila 11/04/2022 2701350359 integrated print api.
+Sohel 11/05/2022 2701350359 Added Tootltip and disable Condition
+Sohel 11/05/2022 2701350359 rename tooltip and download configuration
+akhila 11/04/2022 2701350359 added when no records download usage will disabled.
+akhila 11/08/2022 2701350359 adding report notes 
+akhila 11/08/2022 2701350359 changed copyCode in report master. 
+akhila 11/09/2022  2701350359 changed title field
+akhila 11/10/2022  2701350359 changed report note alignment
+Dilip 11/11/2022  2701350359 changed download configuration payload
+Rajesh 11/15/2022 2701350359 added props to conditionally render actions.
+Saikrishna 11/14/2022 2701350359 Removed un used API call.
+Rajesh 11/16/2022 2701350359 changed passing props to report table.
+Akhila 11/25/2022 2701350359 Bug fixed search functionality 
+Rajesh 11/25/2022 2701350359 added condition for night jobs to show completed status 
+Saikrishna 11/28/2022 2701350359 Proper state update for fixedlength and isDaft.
+Ravi 11/29/2022 2701350359  fixed MuiTable action conditional rendering 
+Saikrishna 11/30/2022 2701350359  required changes dne for reports
+Prakash 12/01/2022 2701350359 fixed Table word wrap issues.
+Sai maheshwar 12/01/2022 2701350359 fixed runreport download issue.
+Sai krishna 12/02/2022 2701350359 Added history execution popup.
+Saikrishna 12/02/2022 3031450488 execution done.
+Sai Maheshwar 12/05/2022 3031450488 added map fields save and close
+Sohel 12/05/2022 2701350359 created For payload Changes
+lalitha 12/07/2022 2701350359 added created by payload in search table
+akhila 12/07/2022 3031450488 disable report execution for draft record
+Ravi 12/07/2022 2701350359  Fixed UAT bugs
+akhila 12/08/2022 2701350359 adding session storage for search items
+Ashraf 12/09/2022 2701350359 fixed download configuration created For issue
+Ashraf 12/09/2022 2701350359 fixed download configuration created By issue
+kavya9reddy 12/09/2022 2701350359 Added createdDate in payload
+Sohel 12/13/2022 2701350359 conditionally hide Save Button 
+Akhila 12/13/2022 2701350359 bugFix session stoarge
+Ashraf 12/14/2022 2701350359 removed role access
+Saikrishna 12/18/2022 3225736869 Fixed jira bugs by QA on night jobs
+
+*/
+
+import React, { useContext, createRef, useEffect, useState, useRef } from "react";
+// import MaterialTable from "material-table";
+import { Button, Grid, TablePagination } from "@material-ui/core";
+import { tableIcons } from "../../../../components/TableIcons";
+import { httpPaginationPost, httpPaginationDelete } from "../../../../util/Rest";
+import { useDispatch, useSelector } from "react-redux";
+import FileCopyOutlinedIcon from "@material-ui/icons/FileCopyOutlined";
+import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
+import { SuccessSnackbar, ErrorSnackbar } from "../../../../components/CustomSnackBar";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import HistoryIcon from "@material-ui/icons/History";
+import moment from "moment";
+
+import {
+  postGenerateUrl,
+  getDropDownData,
+  getClientCodeData,
+  getAccessMethodRunList,
+  getRunReportData,
+  postFieldCode,
+  ResetUrl,
+  ResetStatus,
+  postPrintRecordMaster,
+  ResetMessage,
+  getCollectorsData,
+  resetConfigUrl,
+} from "../../../../redux/reducers/BRE/AddReportMaster";
+import {
+  fetchBasicInfo,
+  fetchReportMaster,
+  resetCopyReport,
+  resetCreateReport,
+  resetMessage,
+  setReduxState,
+} from "../../../../redux/reducers/ReportMaster/index";
+import { defaultRows } from "../../../../constants/ReusableTablePagination";
+import PlayCircleOutlineOutlinedIcon from "@material-ui/icons/PlayCircleOutlineOutlined";
+import GetAppOutlinedIcon from "@material-ui/icons/GetAppOutlined";
+import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
+import { ThemeContext } from "../../../../themes/ThemeProvider";
+import TableHeaderText from "../../../../util/TableHeaderText";
+import DeleteTableRecordPopup from "../../../../util/DeleteTableRecordPopup";
+import GuiTable from "../../../../components/FormComponents/GuiTable";
+import { resetReportMaster } from "../../../../redux/reducers/ReportMaster/index";
+import DialogBox from "./../../../../components/DialogBox/index";
+import CopyReport from "./CopyReport";
+import { Chip } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
+import { tablePageRows } from "../../../../constants/ReusableConstants";
+import ReportNote from "./ReportNote";
+import PageLoader from "../../../../components/PageLoader";
+import ReportsExecutionTable from "./ReportsExecutionTable";
+import { REPORTING_EXPORT } from "../../../../constants/ReusableRoleAccess";
+import axios from "axios";
+import download from "../../../../util/DownloadLink";
+
+const useStyles = makeStyles((theme) => ({
+  link: {
+    // Changed color for Group Code Column (2700780638)
+    color: "#320469 !important",
+  },
+}));
+export default function ReportMasterSearchTable({
+  setSelectedRows,
+  selectedRows,
+  setTabValue,
+  setOpen,
+  setReportDialogData,
+  // setReportCode,
+  setSubmit,
+  submit,
+  searchData,
+  setSearchData,
+  setCopy,
+  reportMasterSearch,
+  setReportSearchCode,
+  setReportSearch,
+  setReportData,
+  setEditExisting,
+}) {
+  const rowDataRef = useRef();
+  const onEditCall = (rowData) => {
+    dispatch(setReduxState({ property: "fixedlength", value: rowData?.fixedLength }));
+    dispatch(setReduxState({ property: "isDraftReport", value: rowData?.isDraft }));
+    dispatch(setReduxState({ property: "lastStep", value: rowData?.lastStep }));
+    if (!reportMasterSearch) {
+      // dispatch(fetchReportMaster(rowData?.reportCode));
+      // dispatch(fetchBasicInfo(rowData?.reportCode));
+      setTabValue(1);
+      dispatch(setReduxState({ property: "reportCode", value: rowData?.reportCode }));
+      // setReportCode(rowData?.reportCode);
+      // rowData?.accessMethod &&
+      //   rowData?.action &&
+      //   dispatch(
+      //     postFieldCode({
+      //       fieldCode: rowData?.accessMethod,
+      //       options: rowData?.action,
+      //     })
+      //   );
+    }
+    if (reportMasterSearch) {
+      dispatch(getAccessMethodRunList());
+      // dispatch(fetchReportMaster(rowData?.reportCode));
+      setReportData(rowData);
+      setReportSearchCode(rowData);
+      setReportSearch(false);
+      rowData?.accessMethod &&
+        rowData?.action &&
+        dispatch(
+          postFieldCode({
+            fieldCode: rowData?.accessMethod,
+            options: rowData?.action,
+          })
+        );
+    }
+  };
+  const columns = [
+    {
+      title: "Report Code",
+      field: "reportCode",
+      render: (rowData) => (
+        <span
+          role="button"
+          className={`table-word-wrap-border ${classes1.link}`}
+          // style={{ backgroundColor: "transparent" }}
+          onClick={() => {
+            onEditCall(rowData);
+            !reportMasterSearch && setEditExisting(rowData?.reportCode);
+          }}
+        >
+          {rowData?.reportCode}
+        </span>
+      ),
+    },
+    // {
+    //   title: "Report Title",
+    //   field: "title",
+    //   render: (rowData) => <>{rowData?.title}</>,
+    // },
+    // {
+    //   title: "Record Format Code",
+    //   field: "recordFormatCode",
+    // },
+    {
+      title: "Report Description",
+      field: "reportDescription",
+    },
+    {
+      title: "Created By",
+      field: "createdBy",
+    },
+    {
+      title: "Created For",
+      field: "createdFor",
+    },
+    {
+      title: "Created Date",
+      field: "createdDate",
+      render: (rowData) => {
+        return rowData?.createdDate ? moment(rowData?.createdDate).format("MM/DD/YYYY") : "";
+      },
+    },
+    {
+      title: "Status",
+      field: "isDraft",
+      render: (rowData) =>
+        rowData?.isDraft === "Y" ? (
+          <div class="completed-status status">
+            <span style={{ color: "#ff8b00", fontWeight: "bold" }}>Draft</span>
+          </div>
+        ) : (
+          <div class="completed-status status" style={{ fontWeight: "bold", color: "#00af00" }}>
+            <span>Completed</span>
+          </div>
+        ),
+    },
+  ];
+  const { ReusableInputStyles } = useContext(ThemeContext);
+  const tableRef = useRef();
+  const classes = ReusableInputStyles();
+  const dispatch = useDispatch();
+  const [arrayLast, setArrayLast] = useState(false);
+  const [rows, setRows] = useState(defaultRows);
+  const [countTotal, setCountTotal] = useState("");
+  const [userData, setUserData] = useState(null);
+  const [isDelete, setIsDelete] = useState(false);
+  const [isNote, setIsNote] = useState(false);
+  const [configOpen, setConfigOpen] = useState(false);
+  const [configData, setConfigData] = useState(null);
+  const {
+    isLoading,
+    successMsg,
+    viewFormFileUrl,
+    addReportMasterStatus,
+    errorMsg,
+    runReportToggle,
+    configurationUrl,
+  } = useSelector(({ addReportMaster }) => addReportMaster);
+
+  useEffect(() => {
+    if (configurationUrl) {
+      async function readData() {
+        setConfigOpen(true);
+        const data = await axios({
+          url: configurationUrl,
+          method: "GET",
+          // headers: {
+          //   "Content-Type": "text/plain",
+          // },
+        });
+        setConfigData(data);
+        console.log({ configurationUrl, data }, "dddddddddddddddddddd");
+      }
+      readData();
+    }
+  }, [configurationUrl]);
+
+  const { copySuccessMsg, copyErrorMsg, copyReportStatus, copyCode } = useSelector(
+    ({ reportMaster }) => reportMaster
+  );
+  const [copyReport, setCopyReport] = useState(false);
+  const { roleData } = useSelector(({ role }) => role);
+  const [deleteErrorMsg, setDeleteErrorMsg] = useState("");
+  const [deleteSuccessMsg, setDeleteSuccessMsg] = useState("");
+  const reportRoleAccess = roleData?.window?.[REPORTING_EXPORT]?.RE;
+  const [oldReportCode, setOldReportCode] = useState("");
+  const [reportCodeData, setReportCodeData] = useState();
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
+  const [reportExecution, setReportExecution] = useState(false);
+
+  const [order, setOrder] = useState({});
+  const classes1 = useStyles();
+  useEffect(() => {
+    if (successMsg || errorMsg) {
+      setTimeout(() => {
+        dispatch(ResetMessage());
+      }, 3000);
+    }
+  }, [successMsg, errorMsg]);
+
+  useEffect(() => {
+    dispatch(resetMessage("search"));
+  }, []);
+
+  useEffect(() => {
+    if (deleteErrorMsg || deleteSuccessMsg) {
+      setTimeout(() => {
+        setDeleteErrorMsg("");
+        setDeleteSuccessMsg("");
+      }, 3000);
+    }
+  }, [deleteErrorMsg, deleteSuccessMsg]);
+  useEffect(() => {
+    dispatch(getDropDownData());
+    dispatch(getClientCodeData());
+    dispatch(getCollectorsData());
+    !reportMasterSearch && setCopy(null);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (copyReportStatus === 200) {
+      setTimeout(() => {
+        dispatch(fetchBasicInfo(copyCode));
+        dispatch(resetCopyReport());
+        setTabValue(1);
+        setCopyReport(false);
+      }, 2500);
+    }
+  }, [copyReportStatus]);
+
+  useEffect(() => {
+    if (copyErrorMsg || copySuccessMsg) {
+      setTimeout(() => {
+        dispatch(resetCopyReport());
+      }, 2500);
+    }
+  }, [copyErrorMsg, copySuccessMsg]);
+
+  useEffect(async () => {
+    if (viewFormFileUrl && viewFormFileUrl.includes("https")) {
+      // window.open(`${viewFormFileUrl}`, "_parent");
+      const url =
+        "https://galaxy-ghi-dev.s3.us-east-2.amazonaws.com/patientDocuments/sdv/REPORT_01192023_070939.txt?response-content-disposition=attachment%3B%20&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20230119T120943Z&X-Amz-SignedHeaders=host&X-Amz-Expires=900&X-Amz-Credential=AKIA43V2GKIWM6UNCHMX%2F20230119%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Signature=e7b48f73d104c5dad8b9cceb442e2da8fd23640e12b736e10b45b7e7cb2a391c";
+
+      const data = await axios.get(url);
+      console.log(data, "data");
+      dispatch(ResetUrl());
+    }
+  }, [viewFormFileUrl]);
+  useEffect(() => {
+    if ((tableRef.current && submit) || runReportToggle) {
+      Object.keys(searchData).length > 0 ? tableRef.current.onQueryChange() : "";
+    }
+  }, [submit, successMsg, searchData]);
+
+  const handleDelete = (rowData) => {
+    setUserData(rowData);
+    setIsDelete(true);
+  };
+  const handleNote = () => {
+    setIsNote(true);
+  };
+  const handleCloseDialog = () => {
+    setIsDelete(false);
+    setIsNote(false);
+  };
+
+  const handleCopyReport = () => {
+    setCopyReport(false);
+  };
+  const handleSubmit = () => {
+    setIsLoadingDelete(true);
+    new Promise((resolve) => {
+      httpPaginationDelete(`reportstransaction/delete/txnreport/${userData.reportId}`)
+        .then((response) => {
+          if (response?.status === 200 && response?.data?.status !== 400) {
+            setDeleteSuccessMsg(response?.response);
+            setSubmit(true);
+            tableRef.current.onQueryChange();
+            handleCloseDialog();
+            setIsLoadingDelete(false);
+            resolve();
+          }
+          if (response?.data?.status === 400) {
+            setDeleteErrorMsg(response.data.message);
+            resolve();
+            handleCloseDialog();
+            setIsLoadingDelete(false);
+          }
+          resolve();
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+          setIsLoadingDelete(false);
+        });
+    });
+  };
+  useEffect(() => {
+    dispatch(resetReportMaster());
+    !reportMasterSearch && setEditExisting("");
+  }, []);
+  const handleReportHistory = () => {
+    setReportExecution(false);
+  };
+  const handleConfigClose = () => {
+      setConfigOpen(false);
+      dispatch(resetConfigUrl());
+  }
+  const SearchSessionReport = JSON.parse(sessionStorage.getItem("Report"));
+  if (SearchSessionReport && !submit && !reportMasterSearch) {
+    searchData = SearchSessionReport;
+  }
+  return (
+    <>
+      <DialogBox
+        open={reportExecution}
+        dialogClose={handleReportHistory}
+        title="Report Execution History"
+        maxWidth="lg"
+        hideFooter={true}
+      >
+        <ReportsExecutionTable executionRowData={rowDataRef?.current} />
+      </DialogBox>
+      <DialogBox
+        open={configOpen}
+        dialogClose={handleConfigClose}
+        title="Report Execution History"
+        maxWidth="xl"
+        hideFooter={true}
+      >
+        <div className="d-flex justify-content-end">
+          <Button
+            type="button"
+            variant="outlined"
+            className={`search-btn ml-2 ${classes.buttonRoot}`}
+            onClick={() => download(configurationUrl)}
+          >
+            Download
+          </Button>
+        </div>
+        <dir>{configData?.data || ""}</dir>
+      </DialogBox>
+      <DialogBox
+        open={copyReport}
+        dialogClose={handleCopyReport}
+        title="Copy Report"
+        maxWidth="md"
+        hideFooter={true}
+      >
+        <CopyReport oldReportCode={oldReportCode} />
+      </DialogBox>
+      <DeleteTableRecordPopup
+        open={isDelete}
+        dialogClose={handleCloseDialog}
+        title="Delete Report"
+        value={`Are you sure you want to delete this ${userData?.reportCode} report?`}
+        handleSubmit={handleSubmit}
+      />
+      <ReportNote
+        open={isNote}
+        dialogClose={handleCloseDialog}
+        title="Report Notes"
+        maxWidth="lg"
+        reportCodeData={reportCodeData}
+      />
+      <Grid item xs={12}>
+        <div className="custom-table  custom-toolbar-icons custom-actions-icon global-field-table">
+          <GuiTable
+            title={""}
+            columns={columns}
+            icons={tableIcons}
+            tableRef={tableRef}
+            isLoading={isLoading}
+            data={(query) =>
+              new Promise((resolve) => {
+                const url = `reportstransaction/search/all`;
+
+                const bodyObj = {
+                  reportCode: searchData?.code ? searchData.code : "",
+                  reportDescription: searchData?.description ? searchData.description : "",
+                  createdBy: searchData?.createdBy?.userName ? searchData?.createdBy?.userName : "",
+                  createdFor: searchData?.createdFor?.userName
+                    ? searchData?.createdFor?.userName
+                    : "",
+                  createdDate: searchData?.createdDate
+                    ? moment(searchData?.createdDate).format("MM/DD/YYYY")
+                    : "",
+                  limit: query.pageSize ? query.pageSize : null,
+                  reportType: "REPORT",
+                  page: submit
+                    ? 1
+                    : arrayLast && query?.page >= 1
+                    ? query.page
+                    : arrayLast
+                    ? (query.page <= 1 && query.page + 1) || query.page - 1
+                    : query.page + 1,
+                  orderDirection: query.orderDirection,
+                  orderBy: query.orderBy && query.orderBy.field ? query.orderBy.field : "",
+                  isDraft: reportMasterSearch
+                    ? "N"
+                    : searchData?.isDraft?.key
+                    ? searchData?.isDraft?.key
+                    : "",
+                  title: searchData?.title ? searchData?.title : "",
+                };
+                setOrder({
+                  orderBy: query.orderBy && query.orderBy.field ? query.orderBy.field : "",
+                  orderDirection: query?.orderDirection ? query?.orderDirection : "",
+                });
+                if (!searchData) {
+                  resolve({
+                    data: [],
+                    page: 0,
+                    totalCount: 0,
+                  });
+                } else {
+                  httpPaginationPost(url, bodyObj)
+                    .then((response) => {
+                      if (response?.status === 200) {
+                        const data = response.data.response.resultObjects;
+
+                        resolve({
+                          data: data.length > 0 ? data : [],
+                          page: response.data.response.page - 1,
+                          totalCount: response.data.response.count,
+                        });
+                        setCountTotal(response.data.response.count);
+                        setArrayLast(data.length === 1);
+                        setSubmit(false);
+                        // setReportCode(null);
+                      } else {
+                        resolve({
+                          data: [],
+                          page: 0,
+                          totalCount: 5,
+                        });
+                        dispatch({
+                          type: "FETCH_ERROR",
+                          payload: response && response.message ? response.message : null,
+                        });
+                      }
+                    })
+                    .catch((response) => {
+                      resolve({
+                        data: [],
+                        page: 0,
+                        totalCount: 5,
+                      });
+                      dispatch({
+                        type: "FETCH_ERROR",
+                        payload: response && response.message ? response.message : null,
+                      });
+                    });
+                }
+              })
+            }
+            options={{
+              search: false,
+              pageSize: rows,
+              showSelectAllCheckbox: false,
+              emptyRowsWhenPaging: false,
+              toolbarButtonAlignment: "left",
+              headerStyle: {
+                fontWeight: "bold",
+              },
+            }}
+            localization={{
+              header: {
+                actions: reportMasterSearch ? "" : "Actions",
+              },
+            }}
+            actions={
+              !reportMasterSearch && [
+                {
+                  icon: () => (
+                    <>
+                      <Button
+                        type="button"
+                        variant="outlisetOpenned"
+                        className={`mx-1 search-btn`}
+                        disabled={!reportRoleAccess?.add}
+                      >
+                        Create Reporting/Export
+                      </Button>
+                    </>
+                  ),
+                  isFreeAction: true,
+                  disabled: !reportRoleAccess?.add,
+                  hidden: reportMasterSearch,
+                  onClick: (event) => {
+                    dispatch(setReduxState({ property: "isDraftReport", value: "Y" }));
+                    setTabValue(1);
+                    dispatch(resetCreateReport());
+                  },
+                },
+                (rowData) => ({
+                  icon: () => <PlayCircleOutlineOutlinedIcon />,
+                  tooltip: rowData?.isDraft !== "Y" ? "Run" : "",
+                  disabled: rowData?.isDraft === "Y",
+                  hidden: reportMasterSearch,
+                  onClick: (event, rowData) => {
+                    setOpen(true);
+                    rowData?.accessMethod &&
+                      rowData?.action &&
+                      dispatch(
+                        postFieldCode({
+                          fieldCode: rowData?.accessMethod,
+                          options: rowData?.action,
+                        })
+                      );
+                    setReportDialogData(rowData);
+                    dispatch(getAccessMethodRunList());
+                    // dispatch(getRunReportData(rowData.reportId));
+                  },
+                }),
+                // (rowData) => {
+                //   if (rowData?.docKey) {
+                //     return {
+                //       icon: () => <GetAppOutlinedIcon />,
+                //       tooltip: "Download",
+                //       hidden: reportMasterSearch,
+                //       onClick: (event, rowData) => {
+                //         dispatch(
+                //           postGenerateUrl({
+                //             dockey: rowData?.docKey,
+                //           })
+                //         );
+                //         // dispatch(downloadFileByUrl(rowData?.documentKey));
+                //       },
+                //     };
+                //   } else {
+                //     return {
+                //       icon: () => <GetAppOutlinedIcon />,
+                //       hidden: reportMasterSearch,
+                //       disabled: true,
+                //     };
+                //   }
+                // },
+                (rowData) => ({
+                  icon: () => <HistoryIcon />,
+                  // hidden: nightJobSearchTrigger,
+                  disabled: rowData?.isDraft === "Y",
+                  tooltip: rowData?.isDraft !== "Y" ? "Report executions" : "",
+                  onClick: (event, rowData) => {
+                    setReportExecution(true);
+                    rowDataRef.current = rowData;
+                    // dispatch(triggerExecutions(rowData?.groupCode));
+                  },
+                }),
+                (rowData) => ({
+                  icon: () => <EditOutlinedIcon />,
+                  tooltip: "Edit",
+                  hidden: rowData?.repositoryType === "SYSTEM",
+                  disabled: !reportRoleAccess?.edit,
+                  onClick: (event, rowData) => {
+                    onEditCall(rowData);
+                    !reportMasterSearch && setEditExisting(rowData?.reportCode);
+                  },
+                }),
+                (rowData) => ({
+                  icon: () => <FileCopyOutlinedIcon />,
+                  tooltip: "Copy",
+                  hidden: reportMasterSearch,
+                  disabled: !reportRoleAccess?.add,
+                  onClick: (event, rowData) => {
+                    // dispatch(fetchReportMaster(rowData.reportCode));
+                    // setTabValue(1);
+                    setCopy(rowData.reportId);
+                    setCopyReport(true);
+                    setOldReportCode(rowData?.reportCode);
+                  },
+                }),
+                {
+                  icon: () => <DeleteOutlineOutlinedIcon className={classes.copyButtonroot} />,
+                  tooltip: "Delete",
+                  hidden: reportMasterSearch,
+                  onClick: (event, rowData) => handleDelete(rowData),
+                  disabled: !reportRoleAccess?.delete,
+                  // disabled: !reportRoleAccess,
+                },
+                {
+                  icon: () => <DescriptionOutlinedIcon className={classes.copyButtonroot} />,
+                  tooltip: "Report Notes",
+                  hidden: reportMasterSearch,
+                  onClick: (event, rowData) => {
+                    setReportCodeData(rowData?.reportCode);
+                    handleNote();
+                  },
+                },
+              ]
+            }
+            components={{
+              Pagination: (props) => (
+                <div className="global-field-table-footer ">
+                  <div className="mt-2">
+                    <Button
+                      type="button"
+                      variant="outlined"
+                      className={`search-btn ml-2 ${classes.buttonRoot}`}
+                      disabled={Boolean(countTotal === 0)}
+                      onClick={() => {
+                        dispatch(
+                          postPrintRecordMaster({
+                            reportDescription: searchData?.description
+                              ? searchData.description
+                              : "",
+                            reportCode: searchData?.code ? searchData.code : "",
+                            orderBy: order?.orderBy ? order?.orderBy : "",
+                            orderDirection: order?.orderDirection ? order?.orderDirection : "",
+                            reportTitle: searchData?.title ? searchData?.title : "",
+                            createdBy: searchData?.createdBy?.userName
+                              ? searchData?.createdBy?.userName
+                              : "",
+                            createdFor: searchData?.createdFor?.userName
+                              ? searchData?.createdFor?.userName
+                              : "",
+                            createdDate: searchData?.createdDate
+                              ? moment(searchData?.createdDate).format("MM/DD/YYYY")
+                              : "",
+                            isDraft: searchData?.isDraft?.key
+                              ? searchData?.isDraft?.key
+                              : reportMasterSearch
+                              ? "N"
+                              : "",
+                          })
+                        );
+                      }}
+                    >
+                      Download Configuration
+                    </Button>
+                  </div>
+                  <div>
+                    <TablePagination
+                      {...props}
+                      SelectProps={{
+                        inputProps: { "aria-label": "Rows per screen" },
+                      }}
+                      labelRowsPerPage={"Rows per screen:"}
+                      rowsPerPageOptions={tablePageRows}
+                      onChangeRowsPerPage={(event) => {
+                        props.onChangeRowsPerPage(event);
+                        setRows(event.target.value);
+                      }}
+                    />
+                  </div>
+                </div>
+              ),
+            }}
+          />
+        </div>
+        {deleteErrorMsg && <ErrorSnackbar errorMsg={deleteErrorMsg} />}
+        {deleteSuccessMsg && <SuccessSnackbar successMsg={deleteSuccessMsg} />}
+      </Grid>
+      {isLoadingDelete && <PageLoader />}
+      {(errorMsg || copyErrorMsg) && <ErrorSnackbar errorMsg={errorMsg || copyErrorMsg} />}
+      {(successMsg || copySuccessMsg) && (
+        <SuccessSnackbar successMsg={successMsg || copySuccessMsg} />
+      )}
+    </>
+  );
+}
