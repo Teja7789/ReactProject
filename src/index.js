@@ -16,6 +16,7 @@ import {Provider}  from "react-redux";
 import store from './ReduxToolkit/utils/ReduxToolkit/store';
 // import store from './Redux-saga-logger-axios-json/reduxSaga/store';
 // import store from "./Redux-thunk-logger-axios-json/ReduxCrudUseForm/Store";
+import './index.css';
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

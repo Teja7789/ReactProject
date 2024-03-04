@@ -58,6 +58,7 @@ import DataAsyncUi from './Assignment/Practice/REACT/UseStateConcept/DataAsyncUi
 import ParentComponent from './Assignment/Practice/REACT/PropsConcept/PropsDrilling/ParentComponent';
 import BoxComponent from './Assignment/Practice/REACT/UseStateConcept/BoxComponent';
 import Cart from './ReduxToolkit/Components/Cart';
+import NetflixMain from './NetflixGpt/components/NetflixMain';
 // import NewMovieRelease from './Assignment/Practice/components/ahaTickects/NewMovieRelease';
 //netflix
 
@@ -172,6 +173,9 @@ function App() {
 {/* ahaTickects */}
 {/* <NewMovieRelease /> */}
 {/* ahaTickexts */}
+{/* netflixApp */}
+<NetflixMain />
+{/* netflixApp */}
      </div>
   );
 }
