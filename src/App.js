@@ -59,6 +59,11 @@ import ParentComponent from './Assignment/Practice/REACT/PropsConcept/PropsDrill
 import BoxComponent from './Assignment/Practice/REACT/UseStateConcept/BoxComponent';
 import Cart from './ReduxToolkit/Components/Cart';
 import NetflixMain from './NetflixGpt/components/NetflixMain';
+import BuyerAppOndc from './api/ONDC/MyApp/BuyerAppOndc';
+import PostSubscribeUrl from './api/ONDC/Components/ONDC_Register/PostSubscribeUrl';
+import OnPostSubscribeUrl from './api/ONDC/Components/ONDC_Register/OnSubscribePost/OnPostSubscribeUrl';
+import PostLookUpForm from './api/ONDC/Components/ONDC_Register/LookUpForm/PostLookUpForm';
+import VlookupForm from './api/ONDC/Components/ONDC_Register/VlookupForm/VlookupForm';
 // import NewMovieRelease from './Assignment/Practice/components/ahaTickects/NewMovieRelease';
 //netflix
 
@@ -174,8 +179,16 @@ function App() {
 {/* <NewMovieRelease /> */}
 {/* ahaTickexts */}
 {/* netflixApp */}
-<NetflixMain />
+{/* <NetflixMain /> */}
 {/* netflixApp */}
+
+{/* ONDC */}
+{/* <BuyerAppOndc /> */}
+{/* <PostSubscribeUrl /> */}
+{/* <OnPostSubscribeUrl /> */}
+{/* <PostLookUpForm /> */}
+<VlookupForm />
+{/* ONDC */}
      </div>
   );
 }
