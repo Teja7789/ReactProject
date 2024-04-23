@@ -66,7 +66,8 @@ import PostLookUpForm from './api/ONDC/Components/ONDC_Register/LookUpForm/PostL
 import VlookupForm from './api/ONDC/Components/ONDC_Register/VlookupForm/VlookupForm';
 // import NewMovieRelease from './Assignment/Practice/components/ahaTickects/NewMovieRelease';
 //netflix
-
+//Jwt
+import JwtApp from './Jwt/JwtApp';
 function App() {
   return (
     <div>
@@ -187,8 +188,12 @@ function App() {
 {/* <PostSubscribeUrl /> */}
 {/* <OnPostSubscribeUrl /> */}
 {/* <PostLookUpForm /> */}
-<VlookupForm />
+{/* <VlookupForm /> */}
 {/* ONDC */}
+
+{/* JWT */}
+<JwtApp />
+{/* JWT */}
      </div>
   );
 }
